@@ -2,9 +2,18 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+  Welcome: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
+};
+
+type NavigationProps = NativeStackNavigationProp<RootStackParamList, "Welcome">;
 
 export default function Welcome() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
 
   return (
     <View style={styles.container}>
