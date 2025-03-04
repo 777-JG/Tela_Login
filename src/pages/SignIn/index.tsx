@@ -4,10 +4,12 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignIn({ navigation }: { navigation: any }) {
   const [email, setEmail] = useState("");
@@ -18,65 +20,67 @@ export default function SignIn({ navigation }: { navigation: any }) {
   function handleSignIn() {}
 
   return (
-    <View style={styles.container}>
-      <Animatable.View
-        animation="fadeInLeft"
-        delay={500}
-        style={styles.containerHeader}
-      >
-        <Text style={styles.message}>Bem vindo(a) ao MaxMuscle</Text>
-      </Animatable.View>
-      <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-        <Text style={styles.title}>Email</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Digite seu email..."
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-          />
-          <MaterialIcons
-            name="email"
-            size={20}
-            color="#007AFF"
-            style={styles.icon}
-          />
-        </View>
-
-        <Text style={styles.title}>Senha</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Digite sua senha..."
-            style={styles.input}
-            secureTextEntry={!showPassword} // Inverte baseado no estado
-            value={password}
-            onChangeText={setPassword}
-            autoCorrect={false}
-            autoCapitalize="none"
-          />
-          <MaterialIcons
-            name={showPassword ? "visibility" : "visibility-off"} // Muda o ícone
-            size={20}
-            color="#007AFF"
-            style={styles.icon}
-            onPress={() => setShowPassword(!showPassword)}
-          />
-        </View>
-
-        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-          <Text style={styles.buttonText}>Acessar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.buttonRegister}
-          onPress={() => navigation.navigate("SignUp")}
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Animatable.View
+          animation="fadeInLeft"
+          delay={500}
+          style={styles.containerHeader}
         >
-          <Text style={styles.registerText}>
-            Não possui uma conta? Cadastre-se!
-          </Text>
-        </TouchableOpacity>
-      </Animatable.View>
-    </View>
+          <Text style={styles.message}>Bem vindo(a) ao MaxMuscle</Text>
+        </Animatable.View>
+        <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+          <Text style={styles.title}>Email</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Digite seu email..."
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+            />
+            <MaterialIcons
+              name="email"
+              size={20}
+              color="#007AFF"
+              style={styles.icon}
+            />
+          </View>
+
+          <Text style={styles.title}>Senha</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Digite sua senha..."
+              style={styles.input}
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+            <MaterialIcons
+              name={showPassword ? "visibility" : "visibility-off"}
+              size={20}
+              color="#007AFF"
+              style={styles.icon}
+              onPress={() => setShowPassword(!showPassword)}
+            />
+          </View>
+
+          <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+            <Text style={styles.buttonText}>Acessar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.buttonRegister}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={styles.registerText}>
+              Não possui uma conta? Cadastre-se!
+            </Text>
+          </TouchableOpacity>
+        </Animatable.View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

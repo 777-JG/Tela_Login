@@ -7,17 +7,39 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function SignUp({ navigation }: { navigation: any }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [idade, setIdade] = useState("");
+  const [peso, setPeso] = useState("");
+  const [altura, setAltura] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  function handleSignUp() {}
+
+  function handleSignUp() {
+    setLoading(true);
+    const idadeMinima = 14;
+
+    if (!name || !email || !password || !idade || !peso || !altura) {
+      Alert.alert("Erro", "Todos os campos são obrigatórios.");
+      return;
+    }
+    if (parseInt(idade) < idadeMinima) {
+      Alert.alert(
+        "idade mínima",
+        `A idade mínima para o cadastro é ${idadeMinima} anos.`
+      );
+      return;
+    }
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -46,6 +68,32 @@ export default function SignUp({ navigation }: { navigation: any }) {
               onChangeText={setName}
             />
 
+            <Text style={styles.title}>Idade:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite sua idade..."
+              keyboardType="numeric"
+              value={idade}
+              onChangeText={setIdade}
+            />
+
+            <Text style={styles.title}>Peso (kg):</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite seu peso..."
+              keyboardType="numeric"
+              value={peso}
+              onChangeText={setPeso}
+            />
+            <Text style={styles.title}>Altura (cm):</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite sua altura"
+              keyboardType="numeric"
+              value={altura}
+              onChangeText={setAltura}
+            />
+
             <Text style={styles.title}>Email:</Text>
             <TextInput
               placeholder="Digite seu email..."
@@ -55,13 +103,27 @@ export default function SignUp({ navigation }: { navigation: any }) {
             />
 
             <Text style={styles.title}>Senha:</Text>
-            <TextInput
-              placeholder="Digite sua senha..."
-              style={styles.input}
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-            />
+            <View style={styles.inputContainer}>
+              <TextInput
+                placeholder="Digite sua senha..."
+                style={[
+                  styles.textInputPassword,
+                  { flex: 1, paddingHorizontal: 16 },
+                ]}
+                secureTextEntry={!showPassword}
+                value={password}
+                onChangeText={setPassword}
+                autoCorrect={false}
+                autoCapitalize="none"
+              />
+              <MaterialIcons
+                name={showPassword ? "visibility" : "visibility-off"}
+                size={20}
+                color="#007AFF"
+                style={styles.icon}
+                onPress={() => setShowPassword(!showPassword)}
+              />
+            </View>
 
             <TouchableOpacity style={styles.button} onPress={handleSignUp}>
               <Text style={styles.buttonText}>Cadastrar</Text>
@@ -125,6 +187,25 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
+
+  inputContainer: {
+    width: "100%",
+    height: 60,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 20,
+    backgroundColor: "#fafafa",
+    marginTop: 10,
+    marginBottom: 16,
+  },
+
+  icon: {
+    padding: 10,
+    marginRight: 10,
+  },
+
   button: {
     height: 55,
     width: "100%",
@@ -165,5 +246,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 2,
     elevation: 3,
+  },
+  textInputPassword: {
+    fontSize: 16,
   },
 });
