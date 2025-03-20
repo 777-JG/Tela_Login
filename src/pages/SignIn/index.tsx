@@ -17,7 +17,9 @@ export default function SignIn({ navigation }: { navigation: any }) {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  function handleSignIn() {}
+  async function handleSignIn() {
+    navigation.replace("Home");
+  }
 
   return (
     <SafeAreaView style={styles.container}>
