@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   subGreeting: {
+    fontWeight: "600",
     fontSize: 16,
     color: "#666",
     marginTop: 5,
