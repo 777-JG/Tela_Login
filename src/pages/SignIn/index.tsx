@@ -5,40 +5,75 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert,
+  ImageBackground,
 } from "react-native";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { supabase } from "../../lib/supabase";
 
 export default function SignIn({ navigation }: { navigation: any }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   async function handleSignIn() {
+    if (!email || !password) {
+      Alert.alert("Erro", "Preencha todos os campos.");
+      return;
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      Alert.alert("Erro ao logar", error.message);
+      return;
+    }
+
+    const { data: usuario, error: userError } = await supabase
+      .from("usuario")
+      .select("*")
+      .eq("email", email)
+      .single();
+
+    if (userError || !usuario) {
+      Alert.alert("Erro", "Usuário não cadastrado no sistema.");
+      return;
+    }
+
     navigation.replace("Home");
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <Animatable.View
-          animation="fadeInLeft"
-          delay={500}
-          style={styles.containerHeader}
-        >
-          <Text style={styles.message}>Bem vindo(a) ao MaxMuscle</Text>
+        <Animatable.View animation="fadeInDown" delay={300}>
+          <ImageBackground
+            source={require("../../assets/topLogin.jpg")}
+            style={styles.headerImage}
+            imageStyle={styles.headerImgStyle}
+          >
+            <View style={styles.overlay}>
+              <Text style={styles.message}>Bem vindo(a) ao MaxMuscle</Text>
+            </View>
+          </ImageBackground>
         </Animatable.View>
-        <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-          <Text style={styles.title}>Email</Text>
+
+        <Animatable.View animation="fadeInUp" style={styles.form}>
+          <Text style={styles.label}>Email:</Text>
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Digite seu email..."
               style={styles.input}
               value={email}
               onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
             />
             <MaterialIcons
               name="email"
@@ -48,7 +83,7 @@ export default function SignIn({ navigation }: { navigation: any }) {
             />
           </View>
 
-          <Text style={styles.title}>Senha</Text>
+          <Text style={styles.label}>Senha:</Text>
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Digite sua senha..."
@@ -56,7 +91,6 @@ export default function SignIn({ navigation }: { navigation: any }) {
               secureTextEntry={!showPassword}
               value={password}
               onChangeText={setPassword}
-              autoCorrect={false}
               autoCapitalize="none"
             />
             <MaterialIcons
@@ -69,7 +103,7 @@ export default function SignIn({ navigation }: { navigation: any }) {
           </View>
 
           <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-            <Text style={styles.buttonText}>Acessar</Text>
+            <Text style={styles.buttonText}>Entrar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -77,7 +111,7 @@ export default function SignIn({ navigation }: { navigation: any }) {
             onPress={() => navigation.navigate("SignUp")}
           >
             <Text style={styles.registerText}>
-              Não possui uma conta? Cadastre-se!
+              Não tem uma conta? Cadastre-se!
             </Text>
           </TouchableOpacity>
         </Animatable.View>
@@ -91,44 +125,62 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#E3F2FD",
   },
-  containerHeader: {
-    marginTop: "14%",
-    marginBottom: "8%",
-    paddingStart: "5%",
+  headerImage: {
+    width: "100%",
+    height: 200,
+    justifyContent: "flex-end",
+  },
+  headerImgStyle: {
+    resizeMode: "cover",
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.35)",
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    alignItems: "center",
   },
   message: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "bold",
-    color: "#333",
-    textShadowColor: "rgba(0, 0, 0, 0.15)",
-    textShadowOffset: { width: 1, height: 2 },
-    textShadowRadius: 10,
+    color: "#fff",
+    textAlign: "center"
   },
-  containerForm: {
+  form: {
     backgroundColor: "#fff",
     flex: 1,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingHorizontal: "8%", // Mais espaço nas laterais
+    paddingHorizontal: "8%",
     paddingTop: "8%",
-    // Sombra sutil
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: -3,
-    },
   },
-  title: {
+  label: {
     fontSize: 20,
     marginTop: 28,
     color: "#333",
     fontWeight: "600",
   },
+  inputContainer: {
+    width: "100%",
+    height: 60,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 20,
+    backgroundColor: "#fafafa",
+    marginTop: 10,
+    marginBottom: 16,
+    paddingHorizontal: 10,
+  },
   input: {
     flex: 1,
-    height: 50,
     fontSize: 16,
-    paddingHorizontal: 16,
+    height: 50,
+  },
+  icon: {
+    padding: 5,
   },
   button: {
     height: 55,
@@ -136,14 +188,10 @@ const styles = StyleSheet.create({
     marginTop: 25,
     backgroundColor: "#007AFF",
     borderRadius: 15,
-    paddingVertical: 8,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#007AFF",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
@@ -151,9 +199,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     color: "#fff",
-    height: 45,
-    textAlign: "center",
-    lineHeight: 40,
     fontWeight: "700",
   },
   buttonRegister: {
@@ -166,22 +211,5 @@ const styles = StyleSheet.create({
     color: "#007AFF",
     textDecorationLine: "underline",
     fontWeight: "500",
-  },
-  icon: {
-    padding: 10,
-    marginRight: 10,
-  },
-
-  inputContainer: {
-    width: "100%",
-    height: 60,
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    borderRadius: 20,
-    backgroundColor: "#fafafa",
-    marginTop: 10,
-    marginBottom: 16,
   },
 });

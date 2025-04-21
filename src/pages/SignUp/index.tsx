@@ -4,125 +4,115 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
   Alert,
+  ScrollView,
+  SafeAreaView,
+  ImageBackground,
 } from "react-native";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Ionicons } from "@expo/vector-icons";
+import { supabase } from "../../lib/supabase";
 
 export default function SignUp({ navigation }: { navigation: any }) {
-  const [name, setName] = useState("");
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [idade, setIdade] = useState("");
-  const [peso, setPeso] = useState("");
-  const [altura, setAltura] = useState("");
+  const [senha, setSenha] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  function handleSignUp() {
-    setLoading(true);
-    const idadeMinima = 14;
-
-    if (!name || !email || !password || !idade || !peso || !altura) {
-      Alert.alert("Erro", "Todos os campos são obrigatórios.");
+  async function handleSignUp() {
+    if (!nome || !email || !senha) {
+      Alert.alert("Erro", "Preencha todos os campos!");
       return;
     }
-    if (parseInt(idade) < idadeMinima) {
-      Alert.alert(
-        "idade mínima",
-        `A idade mínima para o cadastro é ${idadeMinima} anos.`
-      );
+
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password: senha,
+    });
+
+    if (signUpError) {
+      Alert.alert("Erro ao cadastrar", signUpError.message);
       return;
     }
+
+    const { error: insertError } = await supabase.from("usuario").insert({
+      nome,
+      email,
+      senha: "sem-uso",
+      tipo: "aluno",
+      permissoes: "comum",
+    });
+
+    if (insertError) {
+      Alert.alert("Erro ao salvar no banco", insertError.message);
+      return;
+    }
+
+    Alert.alert("Cadastro realizado!", "Agora você pode fazer login.");
+    navigation.replace("SignIn");
   }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Animatable.View
-            animation="fadeInLeft"
-            delay={500}
-            style={styles.containerHeader}
-          >
-            <Pressable
-              style={styles.buttonBack}
-              onPress={() => navigation.goBack()}
+          <Animatable.View animation="fadeInDown" delay={300}>
+            <ImageBackground
+              source={require("../../assets/topCadastro.jpg")}
+              style={styles.headerImage}
+              imageStyle={styles.headerImgStyle}
             >
-              <Ionicons name="arrow-back" size={24} color="#007AFF" />
-            </Pressable>
-
-            <Text style={styles.message}>Cadastre-se agora!</Text>
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.goBack()}
+              >
+                <Ionicons name="arrow-back" size={24} color="#007AFF" />
+              </TouchableOpacity>
+              <View style={styles.overlay}>
+                <Text style={styles.title}>Cadastre-se agora!</Text>
+              </View>
+            </ImageBackground>
           </Animatable.View>
-          <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-            <Text style={styles.title}>Nome completo:</Text>
+
+          <Animatable.View animation="fadeInUp" style={styles.form}>
+            <Text style={styles.label}>Nome completo:</Text>
             <TextInput
               placeholder="Digite seu nome..."
               style={styles.input}
-              value={name}
-              onChangeText={setName}
+              value={nome}
+              onChangeText={setNome}
             />
 
-            <Text style={styles.title}>Idade:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite sua idade..."
-              keyboardType="numeric"
-              value={idade}
-              onChangeText={setIdade}
-            />
-
-            <Text style={styles.title}>Peso (kg):</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite seu peso..."
-              keyboardType="numeric"
-              value={peso}
-              onChangeText={setPeso}
-            />
-            <Text style={styles.title}>Altura (cm):</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite sua altura"
-              keyboardType="numeric"
-              value={altura}
-              onChangeText={setAltura}
-            />
-
-            <Text style={styles.title}>Email:</Text>
+            <Text style={styles.label}>Email:</Text>
             <TextInput
               placeholder="Digite seu email..."
               style={styles.input}
               value={email}
               onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
             />
 
-            <Text style={styles.title}>Senha:</Text>
-            <View style={styles.inputContainer}>
+            <Text style={styles.label}>Senha:</Text>
+            <View style={{ position: "relative" }}>
               <TextInput
                 placeholder="Digite sua senha..."
-                style={[
-                  styles.textInputPassword,
-                  { flex: 1, paddingHorizontal: 16 },
-                ]}
+                style={styles.input}
                 secureTextEntry={!showPassword}
-                value={password}
-                onChangeText={setPassword}
-                autoCorrect={false}
-                autoCapitalize="none"
+                value={senha}
+                onChangeText={setSenha}
               />
-              <MaterialIcons
-                name={showPassword ? "visibility" : "visibility-off"}
-                size={20}
-                color="#007AFF"
-                style={styles.icon}
+              <TouchableOpacity
+                style={styles.togglePassword}
                 onPress={() => setShowPassword(!showPassword)}
-              />
+              >
+                <Ionicons
+                  name={showPassword ? "eye" : "eye-off"}
+                  size={20}
+                  color="#007AFF"
+                />
+              </TouchableOpacity>
             </View>
 
             <TouchableOpacity style={styles.button} onPress={handleSignUp}>
@@ -140,30 +130,36 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#E3F2FD",
   },
-  containerHeader: {
-    marginTop: "8%",
-    marginBottom: "8%",
-    paddingStart: "5%",
+  headerImage: {
+    width: "100%",
+    height: 200,
+    justifyContent: "flex-end",
   },
-  message: {
-    fontSize: 28,
+  headerImgStyle: {
+    resizeMode: "cover",
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.35)",
+    paddingBottom: 20,
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 26,
     fontWeight: "bold",
-    color: "#333",
-    textShadowColor: "rgba(0, 0, 0, 0.15)",
-    textShadowOffset: { width: 1, height: 2 },
-    textShadowRadius: 10,
+    color: "#fff",
+    textAlign: "center",
   },
-  containerForm: {
+  form: {
     backgroundColor: "#fff",
     flex: 1,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    paddingStart: "5%",
-    paddingEnd: "5%",
+    paddingHorizontal: "5%",
     minHeight: "100%",
-    paddingBottom: "100%",
   },
-  title: {
+  label: {
     fontSize: 20,
     marginTop: 28,
     color: "#333",
@@ -173,81 +169,40 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e0e0e0",
     height: 50,
-    marginBottom: 16,
-    fontSize: 16,
     borderRadius: 20,
     paddingHorizontal: 16,
     marginTop: 10,
     backgroundColor: "#fafafa",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
   },
-
-  inputContainer: {
-    width: "100%",
-    height: 60,
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    borderRadius: 20,
-    backgroundColor: "#fafafa",
-    marginTop: 10,
-    marginBottom: 16,
-  },
-
-  icon: {
+  togglePassword: {
+    position: "absolute",
+    right: 16,
+    top: 18,
     padding: 10,
-    marginRight: 10,
+    zIndex: 1,
   },
-
   button: {
     height: 55,
     width: "100%",
     marginTop: 25,
     backgroundColor: "#007AFF",
     borderRadius: 15,
-    paddingVertical: 8,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#007AFF",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
+    elevation: 5,
   },
   buttonText: {
     fontSize: 20,
     color: "#fff",
-    height: 45,
-    textAlign: "center",
-    lineHeight: 40,
     fontWeight: "700",
   },
-  buttonBack: {
-    marginTop: 5,
-    padding: 8,
-    alignSelf: "flex-start",
+  backButton: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    zIndex: 2,
     backgroundColor: "rgba(255,255,255,0.9)",
+    padding: 8,
     borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 2,
-    elevation: 3,
-  },
-  textInputPassword: {
-    fontSize: 16,
   },
 });

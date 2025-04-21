@@ -22,41 +22,52 @@ export default function Welcome() {
   const navigation = useNavigation<NavigationProps>();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.containerLogo}>
-        <Animatable.Text style={styles.appName} animation="flipInY" delay={500}>
-          MaxMuscle
-        </Animatable.Text>
-        <Animatable.Text
-          style={styles.slogan}
+    <ImageBackground
+      source={require("../../assets/Acad.png")}
+      style={styles.background}
+      imageStyle={{ opacity: 0.2 }}
+    >
+      <View style={styles.container}>
+        <View style={styles.containerLogo}>
+          <Animatable.Text style={styles.appName} animation="flipInY" delay={500}>
+            MaxMuscle
+          </Animatable.Text>
+          <Animatable.Text
+            style={styles.slogan}
+            animation="fadeInUp"
+            delay={1000}
+          >
+            Mais do que um app, um parceiro de treino.
+          </Animatable.Text>
+        </View>
+
+        <Animatable.View
+          style={styles.containerForm}
           animation="fadeInUp"
-          delay={1000}
+          delay={600}
         >
-          Mais do que um app, um parceiro de treino.
-        </Animatable.Text>
+          <Text style={styles.title}>Bem vindo(a)!</Text>
+          <Text style={styles.text}>Faça login para continuar</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("SignIn")}
+          >
+            <Text style={styles.buttonText}>Avançar</Text>
+          </TouchableOpacity>
+        </Animatable.View>
       </View>
-      <Animatable.View
-        style={styles.containerForm}
-        animation="fadeInUp"
-        delay={600}
-      >
-        <Text style={styles.title}>Bem vindo(a) de volta!</Text>
-        <Text style={styles.text}>Faça login para continuar</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("SignIn")}
-        >
-          <Text style={styles.buttonText}>Avançar</Text>
-        </TouchableOpacity>
-      </Animatable.View>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: "cover",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#E3F2FD",
+    backgroundColor: "transparent",
   },
   containerLogo: {
     flex: 2,
@@ -70,23 +81,26 @@ const styles = StyleSheet.create({
   },
   slogan: {
     fontSize: 18,
-    color: "#555",
+    color: "#333",
     fontStyle: "italic",
     marginTop: 5,
+    textAlign: "center",
+    paddingHorizontal: 20,
   },
   containerForm: {
     flex: 1,
     backgroundColor: "white",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    paddingStart: "5%",
-    paddingEnd: "5%",
+    paddingHorizontal: "5%",
+    justifyContent: "center",
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
     marginTop: 28,
     marginBottom: 12,
+    color: "#000",
   },
   text: {
     color: "#a1a1a1",
