@@ -59,7 +59,7 @@ export default function SignIn({ navigation }: { navigation: any }) {
             imageStyle={styles.headerImgStyle}
           >
             <View style={styles.overlay}>
-              <Text style={styles.message}>Bem vindo(a) ao MaxMuscle</Text>
+              <Text style={styles.message}>Bem vindo(a) ao MaxMuscle!</Text>
             </View>
           </ImageBackground>
         </Animatable.View>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     color: "#fff",
-    textAlign: "center"
+    textAlign: "center",
   },
   form: {
     backgroundColor: "#fff",
