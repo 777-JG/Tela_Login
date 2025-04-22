@@ -7,6 +7,7 @@ import {
   ScrollView,
   Alert,
   ImageBackground,
+  Pressable,
 } from "react-native";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
@@ -123,7 +124,7 @@ export default function SignIn({ navigation }: { navigation: any }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E3F2FD",
+    backgroundColor: "black",
   },
   headerImage: {
     width: "100%",
@@ -136,7 +137,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
   },
   overlay: {
-    backgroundColor: "rgba(0,0,0,0.35)",
     paddingHorizontal: 20,
     paddingBottom: 20,
     alignItems: "center",
@@ -150,8 +150,6 @@ const styles = StyleSheet.create({
   form: {
     backgroundColor: "#fff",
     flex: 1,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
     paddingHorizontal: "8%",
     paddingTop: "8%",
   },
@@ -209,7 +207,6 @@ const styles = StyleSheet.create({
   registerText: {
     fontSize: 16,
     color: "#007AFF",
-    textDecorationLine: "underline",
     fontWeight: "500",
   },
 });

@@ -137,12 +137,11 @@ const styles = StyleSheet.create({
   },
   headerImgStyle: {
     resizeMode: "cover",
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.35)",
     paddingBottom: 20,
+    paddingHorizontal: 20,
     alignItems: "center",
   },
   title: {
@@ -154,8 +153,6 @@ const styles = StyleSheet.create({
   form: {
     backgroundColor: "#fff",
     flex: 1,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
     paddingHorizontal: "5%",
     minHeight: "100%",
   },
