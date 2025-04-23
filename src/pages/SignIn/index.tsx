@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
+import { StatusBar } from "expo-status-bar";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
@@ -52,6 +53,7 @@ export default function SignIn({ navigation }: { navigation: any }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="light" backgroundColor="#007AFF" />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <Animatable.View animation="fadeInDown" delay={300}>
           <ImageBackground

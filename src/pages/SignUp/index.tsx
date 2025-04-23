@@ -12,6 +12,7 @@ import {
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
 import { supabase } from "../../lib/supabase";
 
 export default function SignUp({ navigation }: { navigation: any }) {
@@ -55,6 +56,7 @@ export default function SignUp({ navigation }: { navigation: any }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar style="light" backgroundColor="#007AFF" />
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
           <Animatable.View animation="fadeInDown" delay={300}>

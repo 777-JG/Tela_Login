@@ -9,13 +9,49 @@ import {
   Dimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState, useRef } from "react";
+import { StatusBar } from "expo-status-bar";
+import React, { useState, useRef, useEffect } from "react";
+import { supabase } from "../../lib/supabase";
+import { Ionicons } from "@expo/vector-icons";
 
 const DRAWER_WIDTH = Dimensions.get("window").width * 0.7;
 
 export default function Home({ navigation }: { navigation: any }) {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(DRAWER_WIDTH)).current;
+  const [userName, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError) {
+        console.error("Erro ao buscar usuário logado:", userError);
+        return;
+      }
+
+      if (user) {
+        const { data, error } = await supabase
+          .from("usuario")
+          .select("nome, email")
+          .eq("email", user.email)
+          .single();
+
+        if (!error && data) {
+          setUsername(data.nome);
+          setEmail(data.email);
+        } else {
+          console.error("Erro ao buscar dados do usuário:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const openDrawer = () => {
     setIsDrawerVisible(true);
@@ -38,27 +74,52 @@ export default function Home({ navigation }: { navigation: any }) {
 
   const menuItems = [
     {
-      icon: "👤",
+      icon: (
+        <Ionicons
+          name="person-circle-outline"
+          size={24}
+          color={"black"}
+        ></Ionicons>
+      ),
       label: "Meu Perfil",
       onPress: () => navigation.navigate("Profile"),
     },
 
     {
-      icon: "📊",
+      icon: <Ionicons name="stats-chart" size={24} color={"black"}></Ionicons>,
       label: "Estatísticas",
       onPress: () => navigation.navigate("Statistics"),
     },
-    { icon: "❓", label: "Ajuda", onPress: () => navigation.navigate("Help") },
     {
-      icon: "⚙️",
+      icon: (
+        <Ionicons
+          name="help-circle-outline"
+          size={24}
+          color={"black"}
+        ></Ionicons>
+      ),
+      label: "Ajuda",
+      onPress: () => navigation.navigate("Help"),
+    },
+    {
+      icon: (
+        <Ionicons name="settings-outline" size={24} color={"black"}></Ionicons>
+      ),
       label: "Configurações",
       onPress: () => navigation.navigate("Settings"),
     },
-    { icon: "🚪", label: "Sair", onPress: () => navigation.navigate("SignIn") },
+    {
+      icon: (
+        <Ionicons name="log-out-outline" size={24} color={"black"}></Ionicons>
+      ),
+      label: "Sair",
+      onPress: () => navigation.navigate("SignIn"),
+    },
   ];
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="light" backgroundColor="#007AFF" />
       <ScrollView style={styles.scrollView}>
         <View style={styles.header}>
           <View style={styles.headerContent}>
@@ -104,8 +165,10 @@ export default function Home({ navigation }: { navigation: any }) {
               <View style={styles.drawerProfileImage}>
                 <Text style={styles.drawerAvatarEmoji}>🏋️</Text>
               </View>
-              <Text style={styles.drawerUsername}>Usuário</Text>
-              <Text style={styles.drawerEmail}>usuario@email.com</Text>
+              <Text style={styles.drawerUsername}>{userName || "Usuário"}</Text>
+              <Text style={styles.drawerEmail}>
+                {email || "email@email.com"}
+              </Text>
             </View>
 
             <View style={styles.drawerContent}>
