@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 import * as Animatable from "react-native-animatable";
+import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -25,11 +26,16 @@ export default function Welcome() {
     <ImageBackground
       source={require("../../assets/Acad.png")}
       style={styles.background}
-      imageStyle={{ opacity: 0.2 }}
+      imageStyle={{ opacity: 1 }}
     >
+      <StatusBar style="light" backgroundColor="#007AFF" />
       <View style={styles.container}>
         <View style={styles.containerLogo}>
-          <Animatable.Text style={styles.appName} animation="flipInY" delay={500}>
+          <Animatable.Text
+            style={styles.appName}
+            animation="flipInY"
+            delay={500}
+          >
             MaxMuscle
           </Animatable.Text>
           <Animatable.Text
@@ -81,7 +87,7 @@ const styles = StyleSheet.create({
   },
   slogan: {
     fontSize: 18,
-    color: "#333",
+    color: "#fff",
     fontStyle: "italic",
     marginTop: 5,
     textAlign: "center",
