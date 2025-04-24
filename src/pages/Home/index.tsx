@@ -7,6 +7,8 @@ import {
   Modal,
   Animated,
   Dimensions,
+  FlatList,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -15,6 +17,66 @@ import { supabase } from "../../lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
 
 const DRAWER_WIDTH = Dimensions.get("window").width * 0.7;
+
+const upperBodyParts = [
+  {
+    id: "1",
+    name: "Peito",
+    image: require("../../assets/peito.jpg"),
+    color: "#FF6B6B",
+  },
+  {
+    id: "2",
+    name: "Costas",
+    image: require("../../assets/costas.jpg"),
+    color: "#4ECDC4",
+  },
+  {
+    id: "3",
+    name: "Bíceps",
+    image: require("../../assets/biceps.jpg"),
+    color: "#96CEB4",
+  },
+  {
+    id: "4",
+    name: "Ombro",
+    image: require("../../assets/ombro.jpg"),
+    color: "#FFEEAD",
+  },
+  {
+    id: "5",
+    name: "Abdômen",
+    image: require("../../assets/abdomen.jpg"),
+    color: "#D4A5A5",
+  },
+];
+
+const lowerBodyParts = [
+  {
+    id: "6",
+    name: "Quadríceps",
+    image: require("../../assets/quadriceps.jpg"),
+    color: "#45B7D1",
+  },
+  {
+    id: "7",
+    name: "Posterior",
+    image: require("../../assets/posterior.jpg"),
+    color: "#9B59B6",
+  },
+  {
+    id: "8",
+    name: "Glúteos",
+    image: require("../../assets/gluteos.jpg"),
+    color: "#E74C3C",
+  },
+  {
+    id: "9",
+    name: "Panturrilha",
+    image: require("../../assets/panturrilha.jpg"),
+    color: "#F1C40F",
+  },
+];
 
 export default function Home({ navigation }: { navigation: any }) {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
@@ -117,6 +179,25 @@ export default function Home({ navigation }: { navigation: any }) {
     },
   ];
 
+  const renderBodyPart = ({ item }: { item: any }) => (
+    <TouchableOpacity
+      style={[styles.bodyPartCard, { backgroundColor: item.color }]}
+      onPress={() => navigation.navigate("Exercises", { bodyPart: item.name })}
+    >
+      {item.image ? (
+        <View style={styles.imageCard}>
+          <Image source={item.image} style={styles.bodyPartImage} />
+          <Text style={styles.imageCardLabel}>{item.name}</Text>
+        </View>
+      ) : (
+        <View style={styles.emojiCard}>
+          <Text style={styles.bodyPartEmoji}>{item.emoji}</Text>
+          <Text style={styles.bodyPartLabel}>{item.name}</Text>
+        </View>
+      )}
+    </TouchableOpacity>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" backgroundColor="#007AFF" />
@@ -141,6 +222,59 @@ export default function Home({ navigation }: { navigation: any }) {
               </View>
             </TouchableOpacity>
           </View>
+        </View>
+
+        <View style={styles.bodyPartSelector}>
+          <Text style={styles.sectionTitle}>Membros Superiores</Text>
+          <FlatList
+            data={upperBodyParts}
+            renderItem={renderBodyPart}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.bodyPartList}
+          />
+        </View>
+
+        <View style={styles.bodyPartSelector}>
+          <Text style={styles.sectionTitle}>Membros Inferiores</Text>
+          <FlatList
+            data={lowerBodyParts}
+            renderItem={renderBodyPart}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.bodyPartList}
+          />
+        </View>
+
+        <View style={styles.workoutSection}>
+          <Text style={styles.sectionTitle}>Treino do Dia</Text>
+          <TouchableOpacity
+            style={styles.workoutCard}
+            onPress={() => navigation.navigate("Workout")}
+          >
+            <View style={styles.workoutInfo}>
+              <Text style={styles.workoutName}>Treino Full Body</Text>
+              <Text style={styles.workoutDescription}>
+                Treino completo para iniciantes
+              </Text>
+              <View style={styles.workoutStats}>
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>8</Text>
+                  <Text style={styles.statLabel}>Exercícios</Text>
+                </View>
+                <View style={styles.statDivider} />
+                <View style={styles.statItem}>
+                  <Text style={styles.statNumber}>45</Text>
+                  <Text style={styles.statLabel}>Minutos</Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.startButtonContainer}>
+              <Text style={styles.startButtonText}>Começar</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -352,37 +486,109 @@ const styles = StyleSheet.create({
   },
   bodyPartSelector: {
     marginTop: 20,
+    paddingHorizontal: 20,
   },
-  selectorTitle: {
-    fontSize: 16,
-    fontWeight: "600",
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
     color: "#333",
-    marginBottom: 10,
-    marginLeft: 5,
+    marginBottom: 15,
+  },
+  bodyPartList: {
+    paddingRight: 20,
   },
   bodyPartCard: {
-    backgroundColor: "#fff",
-    padding: 15,
+    width: 120,
+    height: 120,
     borderRadius: 15,
-    alignItems: "center",
+    marginRight: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    overflow: "hidden",
+  },
+  imageCard: {
+    flex: 1,
     justifyContent: "center",
-    marginRight: 10,
-    width: 100,
-    height: 100,
+    alignItems: "center",
+  },
+  emojiCard: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bodyPartImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  imageCardLabel: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    color: "#fff",
+    padding: 5,
+    textAlign: "center",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  bodyPartEmoji: {
+    fontSize: 32,
+    marginBottom: 8,
+  },
+  bodyPartLabel: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
+  },
+  workoutSection: {
+    marginTop: 30,
+    paddingHorizontal: 20,
+  },
+  workoutCard: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    padding: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
-  bodyPartEmoji: {
-    fontSize: 30,
+  workoutInfo: {
+    flex: 1,
+  },
+  workoutName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 5,
   },
-  bodyPartLabel: {
+  workoutDescription: {
     fontSize: 14,
-    fontWeight: "500",
-    color: "#333",
-    textAlign: "center",
+    color: "#666",
+    marginBottom: 10,
+  },
+  workoutStats: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  startButtonContainer: {
+    backgroundColor: "#007AFF",
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+  },
+  startButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 14,
   },
 });
