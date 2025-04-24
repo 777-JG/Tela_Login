@@ -15,6 +15,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useRef, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
+import BottomNavigation from "../../components/BottomNavigation";
 
 const DRAWER_WIDTH = Dimensions.get("window").width * 0.7;
 
@@ -224,9 +225,6 @@ export default function Home({ navigation }: { navigation: any }) {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={styles.workoutSelectView}>
-            <Text style={styles.workoutSelect}>Selecione o tipo de treino</Text>
-          </View>
         </View>
 
         <View style={styles.bodyPartSelector}>
@@ -254,34 +252,38 @@ export default function Home({ navigation }: { navigation: any }) {
         </View>
 
         <View style={styles.workoutSection}>
-          <Text style={styles.sectionTitle}>Treino do Dia</Text>
+          <Text style={styles.sectionTitle}>Treino Personalizado</Text>
           <TouchableOpacity
-            style={styles.workoutCard}
-            onPress={() => navigation.navigate("Workout")}
+            style={styles.customWorkoutCard}
+            onPress={() => navigation.navigate("CustomWorkout")}
           >
-            <View style={styles.workoutInfo}>
-              <Text style={styles.workoutName}>Treino Full Body</Text>
-              <Text style={styles.workoutDescription}>
-                Treino completo para iniciantes
+            <View style={styles.customWorkoutContent}>
+              <View style={styles.customWorkoutHeader}>
+                <Ionicons name="fitness" size={24} color="#007AFF" />
+                <Text style={styles.customWorkoutTitle}>Monte seu treino</Text>
+              </View>
+              <Text style={styles.customWorkoutDescription}>
+                Crie um treino personalizado com base nos seus objetivos
               </Text>
-              <View style={styles.workoutStats}>
-                <View style={styles.statItem}>
-                  <Text style={styles.statNumber}>8</Text>
-                  <Text style={styles.statLabel}>Exercícios</Text>
-                </View>
-                <View style={styles.statDivider} />
-                <View style={styles.statItem}>
-                  <Text style={styles.statNumber}>45</Text>
-                  <Text style={styles.statLabel}>Minutos</Text>
+              <View style={styles.customWorkoutFeatures}>
+                <View style={styles.featureItem}>
+                  <Ionicons name="barbell-outline" size={20} color="#666" />
+                  <Text style={styles.featureText}>Escolha exercícios</Text>
                 </View>
               </View>
             </View>
-            <View style={styles.startButtonContainer}>
-              <Text style={styles.startButtonText}>Começar</Text>
-            </View>
+            <TouchableOpacity
+              style={styles.createButton}
+              onPress={() => navigation.navigate("CustomWorkout")}
+            >
+              <Text style={styles.createButtonText}>Criar Treino</Text>
+              <Ionicons name="arrow-forward" size={20} color="#fff" top={1.5} />
+            </TouchableOpacity>
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      <BottomNavigation currentRoute="Home" />
 
       <Modal
         visible={isDrawerVisible}
@@ -343,6 +345,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    marginBottom: 60,
   },
   header: {
     padding: 20,
@@ -558,61 +561,61 @@ const styles = StyleSheet.create({
     marginTop: 30,
     paddingHorizontal: 20,
   },
-  workoutCard: {
+  customWorkoutCard: {
     backgroundColor: "#fff",
     borderRadius: 15,
-    padding: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    padding: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
-  workoutInfo: {
+  customWorkoutContent: {
     flex: 1,
   },
-  workoutName: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 5,
-  },
-  workoutDescription: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 10,
-  },
-  workoutStats: {
+  customWorkoutHeader: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 10,
   },
-  workoutSelect: {
-    fontSize: 18,
+  customWorkoutTitle: {
+    fontSize: 20,
     fontWeight: "bold",
-    color: "#fff",
-    justifyContent: "center",
-    alignSelf: "center",
+    color: "#333",
+    marginLeft: 10,
   },
-  workoutSelectView: {
-    backgroundColor: "#007AFF",
-    width: "70%",
-    height: 40,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignSelf: "center",
-  },
-  startButtonContainer: {
-    backgroundColor: "#007AFF",
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    borderRadius: 20,
-  },
-  startButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
+  customWorkoutDescription: {
     fontSize: 14,
+    color: "#666",
+    marginBottom: 15,
+  },
+  customWorkoutFeatures: {
+    marginTop: 10,
+  },
+  featureItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  featureText: {
+    marginLeft: 10,
+    fontSize: 14,
+    color: "#666",
+  },
+  createButton: {
+    backgroundColor: "#007AFF",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 12,
+    borderRadius: 10,
+    marginTop: 15,
+  },
+  createButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginRight: 8,
   },
 });
