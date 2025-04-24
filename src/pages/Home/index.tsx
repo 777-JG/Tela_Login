@@ -216,11 +216,16 @@ export default function Home({ navigation }: { navigation: any }) {
             <TouchableOpacity style={styles.profileButton} onPress={openDrawer}>
               <View style={styles.profileImageContainer}>
                 <View style={styles.profileImage}>
-                  <Text style={styles.avatarEmoji}>🏋️</Text>
+                  <Text style={styles.avatarEmoji}>
+                    {userName ? userName.charAt(0).toUpperCase() : "?"}
+                  </Text>
                 </View>
                 <View style={styles.profileBadge} />
               </View>
             </TouchableOpacity>
+          </View>
+          <View style={styles.workoutSelectView}>
+            <Text style={styles.workoutSelect}>Selecione o tipo de treino</Text>
           </View>
         </View>
 
@@ -299,7 +304,9 @@ export default function Home({ navigation }: { navigation: any }) {
           >
             <View style={styles.drawerHeader}>
               <View style={styles.drawerProfileImage}>
-                <Text style={styles.drawerAvatarEmoji}>🏋️</Text>
+                <Text style={styles.drawerProfile}>
+                  {userName ? userName.charAt(0).toUpperCase() : "?"}
+                </Text>
               </View>
               <Text style={styles.drawerUsername}>{userName || "Usuário"}</Text>
               <Text style={styles.drawerEmail}>
@@ -348,7 +355,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   greeting: {
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: "bold",
     color: "#333",
   },
@@ -356,7 +363,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 16,
     color: "#666",
-    marginTop: 5,
+    marginTop: 10,
   },
   profileButton: {
     padding: 5,
@@ -376,6 +383,7 @@ const styles = StyleSheet.create({
   },
   avatarEmoji: {
     fontSize: 24,
+    color: "#fff",
   },
   profileBadge: {
     position: "absolute",
@@ -453,8 +461,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 15,
   },
-  drawerAvatarEmoji: {
+  drawerProfile: {
     fontSize: 40,
+    color: "#fff",
   },
   drawerUsername: {
     fontSize: 20,
@@ -579,6 +588,21 @@ const styles = StyleSheet.create({
   workoutStats: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  workoutSelect: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fff",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+  workoutSelectView: {
+    backgroundColor: "#007AFF",
+    width: "70%",
+    height: 40,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignSelf: "center",
   },
   startButtonContainer: {
     backgroundColor: "#007AFF",
