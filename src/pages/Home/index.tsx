@@ -124,9 +124,11 @@ export default function Home({ navigation }: { navigation: any }) {
         <View style={styles.header}>
           <View style={styles.headerContent}>
             <View>
-              <Text style={styles.greeting}>Olá! 👋</Text>
+              <Text style={styles.greeting}>
+                Olá, {userName || "Usuário"} 👋!
+              </Text>
               <Text style={styles.subGreeting}>
-                Pronto para mais um dia de evolução?
+                O que você vai treinar hoje?
               </Text>
             </View>
 
@@ -347,5 +349,40 @@ const styles = StyleSheet.create({
   drawerItemLabel: {
     fontSize: 16,
     color: "#333",
+  },
+  bodyPartSelector: {
+    marginTop: 20,
+  },
+  selectorTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 10,
+    marginLeft: 5,
+  },
+  bodyPartCard: {
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+    width: 100,
+    height: 100,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  bodyPartEmoji: {
+    fontSize: 30,
+    marginBottom: 5,
+  },
+  bodyPartLabel: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#333",
+    textAlign: "center",
   },
 });
