@@ -6,6 +6,7 @@ import SignUp from "../pages/SignUp";
 import Home from "../pages/Home";
 import Favorites from "../pages/Favorites";
 import Exercises from "../pages/Exercises";
+
 type RootStackParamList = {
   Welcome: undefined;
   SignIn: undefined;
