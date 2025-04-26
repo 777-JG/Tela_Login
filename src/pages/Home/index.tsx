@@ -18,7 +18,9 @@ import { Ionicons } from "@expo/vector-icons";
 import BottomNavigation from "../../components/BottomNavigation";
 
 const DRAWER_WIDTH = Dimensions.get("window").width * 0.7;
-//Função Membrs Superiores
+{
+  /*Função Membros Superiores*/
+}
 const upperBodyParts = [
   {
     id: "1",
@@ -51,7 +53,9 @@ const upperBodyParts = [
     color: "#D4A5A5",
   },
 ];
-//Função Membros Inferiores
+{
+  /*Função Membros Inferiores*/
+}
 const lowerBodyParts = [
   {
     id: "6",
@@ -85,7 +89,9 @@ export default function Home({ navigation }: { navigation: any }) {
   const [userName, setUsername] = useState("");
   const [email, setEmail] = useState("");
 
-  //Função para Mostrar Nome do Usuário
+  {
+    /*Efeito para buscar dados do usuário logado*/
+  }
   useEffect(() => {
     const fetchUserData = async () => {
       const {
@@ -116,7 +122,11 @@ export default function Home({ navigation }: { navigation: any }) {
 
     fetchUserData();
   }, []);
-  //Função para Abrir Drawer
+  {
+    {
+      /*Função para Abrir Drawer*/
+    }
+  }
   const openDrawer = () => {
     setIsDrawerVisible(true);
     Animated.timing(slideAnim, {
@@ -125,7 +135,8 @@ export default function Home({ navigation }: { navigation: any }) {
       useNativeDriver: true,
     }).start();
   };
-  //Função para fechar Drawer
+  {
+  }
   const closeDrawer = () => {
     Animated.timing(slideAnim, {
       toValue: DRAWER_WIDTH,
@@ -135,7 +146,8 @@ export default function Home({ navigation }: { navigation: any }) {
       setIsDrawerVisible(false);
     });
   };
-  //Ícones no Drawer
+  {
+  }
   const menuItems = [
     {
       icon: (
@@ -181,7 +193,11 @@ export default function Home({ navigation }: { navigation: any }) {
     },
   ];
 
-  //Cards de grupos Musculares
+  {
+    {
+      /*Cards de grupos Musculares*/
+    }
+  }
   const renderBodyPart = ({ item }: { item: any }) => (
     <TouchableOpacity
       style={[styles.bodyPartCard, { backgroundColor: item.color }]}
@@ -215,7 +231,7 @@ export default function Home({ navigation }: { navigation: any }) {
                 O que você vai treinar hoje?
               </Text>
             </View>
-            //Aperte para abrir o Drawer//
+            {/*Aperte para abrir o Drawer*/}
             <TouchableOpacity style={styles.profileButton} onPress={openDrawer}>
               <View style={styles.profileImageContainer}>
                 <View style={styles.profileImage}>
@@ -228,7 +244,7 @@ export default function Home({ navigation }: { navigation: any }) {
             </TouchableOpacity>
           </View>
         </View>
-        //Grupos Musculares Inferiores
+        {/*Grupos Musculares Inferiores*/}
         <View style={styles.bodyPartSelector}>
           <Text style={styles.sectionTitle}>Membros Superiores</Text>
           <FlatList
@@ -240,7 +256,7 @@ export default function Home({ navigation }: { navigation: any }) {
             contentContainerStyle={styles.bodyPartList}
           />
         </View>
-        //Grupos Musculares Superiores
+        {/*Grupos Musculares Superiores*/}
         <View style={styles.bodyPartSelector}>
           <Text style={styles.sectionTitle}>Membros Inferiores</Text>
           <FlatList
@@ -252,7 +268,7 @@ export default function Home({ navigation }: { navigation: any }) {
             contentContainerStyle={styles.bodyPartList}
           />
         </View>
-        //Sessão para personalizar treino
+        {/*Sessão para personalizar treino*/}
         <View style={styles.workoutSection}>
           <Text style={styles.sectionTitle}>Treino Personalizado</Text>
           <TouchableOpacity
@@ -285,7 +301,7 @@ export default function Home({ navigation }: { navigation: any }) {
         </View>
       </ScrollView>
       <BottomNavigation currentRoute="Home" />
-      //Quando o drawer está aberto
+      {/*Quando o drawer está aberto*/}
       <Modal
         visible={isDrawerVisible}
         transparent
@@ -305,7 +321,7 @@ export default function Home({ navigation }: { navigation: any }) {
               },
             ]}
           >
-            //Círculo do perfil
+            {/*Círculo do perfil*/}
             <View style={styles.drawerHeader}>
               <View style={styles.drawerProfileImage}>
                 <Text style={styles.drawerProfile}>
