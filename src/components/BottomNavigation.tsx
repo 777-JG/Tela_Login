@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 type BottomNavigationProps = {
   currentRoute: string;
@@ -15,19 +15,22 @@ export default function BottomNavigation({
   const navItems = [
     {
       name: "Home",
-      icon: "menu",
+      icon: "menu-outline",
+      activeIcon: "menu",
       label: "Menu",
       route: "Home",
     },
     {
       name: "Favorites",
-      icon: "star",
+      icon: "star-outline",
+      activeIcon: "star",
       label: "Favoritos",
       route: "Favorites",
     },
     {
       name: "Exercises",
       icon: "barbell-outline",
+      activeIcon: "barbell",
       label: "Exercícios",
       route: "Exercises",
     },
@@ -43,11 +46,18 @@ export default function BottomNavigation({
             style={[styles.navItem, isActive && styles.navItemActive]}
             onPress={() => navigation.navigate(item.route as never)}
           >
-            <Ionicons
-              name={item.icon as any}
-              size={24}
-              color={isActive ? "#007AFF" : "#333"}
-            />
+            <View
+              style={[
+                styles.iconContainer,
+                isActive && styles.iconContainerActive,
+              ]}
+            >
+              <Ionicons
+                name={isActive ? (item.activeIcon as any) : (item.icon as any)}
+                size={24}
+                color={isActive ? "#007AFF" : "#666"}
+              />
+            </View>
             <Text style={[styles.navText, isActive && styles.navTextActive]}>
               {item.label}
             </Text>
@@ -64,7 +74,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "#fff",
-    paddingVertical: 10,
+    paddingVertical: 8,
     borderTopWidth: 1,
     borderTopColor: "#e0e0e0",
     position: "absolute",
@@ -76,18 +86,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
+    paddingVertical: 4,
   },
   navItemActive: {
-    borderBottomWidth: 2,
-    borderBottomColor: "#007AFF",
+    backgroundColor: "transparent",
+  },
+  iconContainer: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+  },
+  iconContainerActive: {
+    backgroundColor: "#E5F1FF",
   },
   navText: {
     fontSize: 12,
-    color: "#333",
+    color: "#666",
     marginTop: 4,
   },
   navTextActive: {
     color: "#007AFF",
-    fontWeight: "bold",
+    fontWeight: "600",
   },
 });

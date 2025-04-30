@@ -23,21 +23,44 @@ type Exercise = {
   image_url: string;
 };
 
+const muscleGroups = [
+  {
+    id: "1",
+    name: "Peito",
+    image: require("../../assets/peito.jpg"),
+  },
+  {
+    id: "2",
+    name: "Costas",
+    image: require("../../assets/costas.jpg"),
+  },
+  {
+    id: "3",
+    name: "Pernas",
+    image: require("../../assets/quadriceps.jpg"),
+  },
+  {
+    id: "4",
+    name: "Glúteos",
+    image: require("../../assets/gluteos.jpg"),
+  },
+  {
+    id: "5",
+    name: "Ombros",
+    image: require("../../assets/ombro.jpg"),
+  },
+  {
+    id: "6",
+    name: "Bíceps",
+    image: require("../../assets/biceps.jpg"),
+  },
+];
+
 export default function Exercises({ navigation }: { navigation: any }) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState("all");
   const [loading, setLoading] = useState(true);
-
-  const muscleGroups = [
-    { id: "all", name: "Todos" },
-    { id: "chest", name: "Peito" },
-    { id: "back", name: "Costas" },
-    { id: "legs", name: "Pernas" },
-    { id: "shoulders", name: "Ombros" },
-    { id: "arms", name: "Braços" },
-    { id: "abs", name: "Abdômen" },
-  ];
 
   useEffect(() => {
     fetchExercises();
@@ -67,6 +90,23 @@ export default function Exercises({ navigation }: { navigation: any }) {
     exercise.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const filteredMuscleGroups = muscleGroups.filter((group) =>
+    group.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const renderMuscleGroup = ({ item }: { item: any }) => (
+    <TouchableOpacity
+      style={styles.muscleGroupItem}
+      onPress={() =>
+        navigation.navigate("ExerciseList", { muscleGroup: item.name })
+      }
+    >
+      <Image source={item.image} style={styles.muscleIcon} />
+      <Text style={styles.muscleGroupName}>{item.name}</Text>
+      <Ionicons name="chevron-forward" size={24} color="#999" />
+    </TouchableOpacity>
+  );
+
   const renderExerciseCard = ({ item }: { item: Exercise }) => (
     <TouchableOpacity
       style={styles.exerciseCard}
@@ -82,53 +122,35 @@ export default function Exercises({ navigation }: { navigation: any }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" backgroundColor="#007AFF" />
+      <StatusBar style="dark" />
 
-      {/* Header com Pesquisa */}
+      {/* Header */}
       <View style={styles.header}>
-        <View style={styles.searchContainer}>
-          <Ionicons
-            name="search"
-            size={20}
-            color="#666"
-            style={styles.searchIcon}
-          />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Buscar exercícios..."
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
-        </View>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={24} color="#333" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Exercícios</Text>
+        <View style={{ width: 24 }} />
       </View>
 
-      {/* Filtros de Grupo Muscular */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.filterContainer}
-      >
-        {muscleGroups.map((group) => (
-          <TouchableOpacity
-            key={group.id}
-            style={[
-              styles.filterButton,
-              selectedMuscleGroup === group.id && styles.filterButtonActive,
-            ]}
-            onPress={() => setSelectedMuscleGroup(group.id)}
-          >
-            <Text
-              style={[
-                styles.filterButtonText,
-                selectedMuscleGroup === group.id &&
-                  styles.filterButtonTextActive,
-              ]}
-            >
-              {group.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <Ionicons name="search" size={20} color="#999" />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Procurar"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
+
+      {/* Muscle Groups List */}
+      <FlatList
+        data={filteredMuscleGroups}
+        renderItem={renderMuscleGroup}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.listContainer}
+      />
 
       {/* Lista de Exercícios */}
       {loading ? (
@@ -157,51 +179,56 @@ export default function Exercises({ navigation }: { navigation: any }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#fff",
   },
   header: {
-    padding: 15,
-    backgroundColor: "#fff",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
+    borderBottomColor: "#eee",
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f0f0f0",
-    borderRadius: 10,
-    paddingHorizontal: 10,
-  },
-  searchIcon: {
-    marginRight: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
   searchInput: {
     flex: 1,
-    paddingVertical: 10,
+    marginLeft: 8,
     fontSize: 16,
+    color: "#333",
   },
-  filterContainer: {
-    backgroundColor: "#fff",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+  listContainer: {
+    paddingTop: 8,
   },
-  filterButton: {
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 20,
-    backgroundColor: "#f0f0f0",
-    marginRight: 10,
+  muscleGroupItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
-  filterButtonActive: {
-    backgroundColor: "#007AFF",
+  muscleIcon: {
+    width: 40,
+    height: 40,
+    marginRight: 12,
   },
-  filterButtonText: {
-    color: "#666",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  filterButtonTextActive: {
-    color: "#fff",
+  muscleGroupName: {
+    flex: 1,
+    fontSize: 16,
+    color: "#333",
   },
   exerciseList: {
     padding: 15,
