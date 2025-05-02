@@ -138,7 +138,7 @@ export default function Exercises({ navigation }: { navigation: any }) {
         <Ionicons name="search" size={20} color="#999" />
         <TextInput
           style={styles.searchInput}
-          placeholder="Procurar"
+          placeholder="Procurar..."
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
