@@ -1,0 +1,32 @@
+# Lista de Exercícios para Inserção no Supabase
+# Formato: nome | grupo_muscular | descricao
+
+Supino Reto | Peito | Deite-se em um banco reto, segure a barra com as mãos afastadas na largura dos ombros, abaixe a barra até o peito e empurre de volta até a extensão total dos braços.
+Supino Inclinado | Peito | Deite-se em um banco inclinado, segure a barra com as mãos afastadas, abaixe até o peito e empurre para cima.
+Crucifixo com Halteres | Peito | Deite-se em um banco reto, segure um halter em cada mão, braços estendidos acima do peito, abra os braços lateralmente e retorne à posição inicial.
+Flexão de Braço | Peito | Apoie as mãos no chão alinhadas ao peito, mantenha o corpo reto, flexione os cotovelos até o peito quase tocar o chão e retorne.
+Crossover | Peito | Em pé, segure as alças do cross, puxe os cabos para frente cruzando os braços à frente do corpo.
+
+Puxada na Barra Fixa | Costas | Segure a barra com as mãos afastadas, puxe o corpo para cima até o queixo ultrapassar a barra e desça controlando o movimento.
+Remada Curvada | Costas | Com barra ou halteres, incline o tronco para frente, puxe o peso em direção ao abdômen e retorne.
+Pulldown na Polia | Costas | Sentado, segure a barra da polia alta, puxe até o peito e retorne controlando.
+Remada Unilateral com Halter | Costas | Com um joelho apoiado no banco, puxe o halter em direção ao quadril e retorne.
+
+Agachamento Livre | Pernas | Em pé, com barra apoiada nas costas, flexione os joelhos e quadris até as coxas ficarem paralelas ao chão e retorne.
+Leg Press | Pernas | Sentado no aparelho, empurre a plataforma com os pés até estender as pernas e retorne.
+Cadeira Extensora | Pernas | Sentado, levante o peso estendendo os joelhos e retorne.
+Cadeira Flexora | Pernas | Sentado, flexione os joelhos puxando o peso para baixo e retorne.
+Afundo | Pernas | Dê um passo à frente, flexione ambos os joelhos até o de trás quase tocar o chão e retorne.
+
+Desenvolvimento com Halteres | Ombros | Sentado, segure um halter em cada mão na altura dos ombros, empurre para cima até estender os braços e retorne.
+Elevação Lateral | Ombros | Em pé, segure halteres ao lado do corpo, eleve os braços lateralmente até a altura dos ombros e retorne.
+Elevação Frontal | Ombros | Em pé, segure halteres à frente das coxas, eleve os braços à frente até a altura dos ombros e retorne.
+
+Rosca Direta | Bíceps | Em pé, segure a barra com as palmas para cima, flexione os cotovelos trazendo a barra até o peito e retorne.
+Rosca Alternada | Bíceps | Em pé, segure um halter em cada mão, flexione alternadamente os cotovelos levando o halter ao ombro e retorne.
+
+Tríceps Testa | Tríceps | Deitado, segure a barra com as mãos afastadas, flexione os cotovelos levando a barra em direção à testa e retorne.
+Tríceps Pulley | Tríceps | Em pé, segure a barra da polia alta, empurre para baixo até estender os cotovelos e retorne.
+Mergulho entre bancos | Tríceps | Apoie as mãos em um banco atrás do corpo e os pés em outro à frente, flexione os cotovelos abaixando o corpo e retorne.
+
+Elevação de Panturrilha | Panturrilha | Em pé, com os pés na ponta de um degrau, eleve os calcanhares o máximo possível e retorne. 

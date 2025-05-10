@@ -54,6 +54,11 @@ const muscleGroups = [
     name: "Bíceps",
     image: require("../../assets/biceps.jpg"),
   },
+  {
+    id: "7",
+    name: "Tríceps",
+    image: require("../../assets/triceps.jpg"),
+  },
 ];
 
 export default function Exercises({ navigation }: { navigation: any }) {
@@ -61,30 +66,6 @@ export default function Exercises({ navigation }: { navigation: any }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState("all");
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchExercises();
-  }, [selectedMuscleGroup]);
-
-  const fetchExercises = async () => {
-    try {
-      setLoading(true);
-      let query = supabase.from("exercises").select("*");
-
-      if (selectedMuscleGroup !== "all") {
-        query = query.eq("muscle_group", selectedMuscleGroup);
-      }
-
-      const { data, error } = await query;
-
-      if (error) throw error;
-      setExercises(data || []);
-    } catch (error) {
-      console.error("Erro ao buscar exercícios:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const filteredExercises = exercises.filter((exercise) =>
     exercise.name.toLowerCase().includes(searchQuery.toLowerCase())

@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  Image,
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -24,28 +23,29 @@ export default function ExerciseList({
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const fetchExercises = async () => {
-      const { data, error } = await supabase
-        .from("exercicio")
-        .select("*")
-        .eq("grupo_muscular", muscleGroup);
-
-      if (!error) {
-        setExercises(data || []);
-      }
-    };
-
     fetchExercises();
-  }, [muscleGroup]);
+  }, []);
+
+  const fetchExercises = async () => {
+    const { data, error } = await supabase
+      .from("exercicio")
+      .select("id, nome, descricao, grupo_muscular")
+      .eq("grupo_muscular", muscleGroup);
+
+    if (!error) setExercises(data || []);
+    else console.error("Erro ao buscar exercícios:", error);
+  };
 
   const filteredExercises = exercises.filter((exercise) =>
-    exercise.muscleGroup?.toLowerCase().includes(muscleGroup?.toLowerCase())
+    exercise.nome.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderItem = ({ item }: { item: any }) => (
-    <TouchableOpacity style={styles.item}>
-      <Image source={{ uri: item.image_url }} style={styles.image} />
-      <Text style={styles.name}>{item.name}</Text>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => navigation.navigate("ExerciseDetail", { exercise: item })}
+    >
+      <Text style={styles.name}>{item.nome}</Text>
     </TouchableOpacity>
   );
 
@@ -69,7 +69,7 @@ export default function ExerciseList({
       </View>
       <FlatList
         data={filteredExercises}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         contentContainerStyle={styles.list}
       />
@@ -106,11 +106,11 @@ const styles = StyleSheet.create({
   list: { padding: 8 },
   item: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
-  image: { width: 50, height: 50, borderRadius: 8, marginRight: 16 },
-  name: { fontSize: 16, color: "#333" },
+  name: { fontSize: 16, color: "#333", fontWeight: "bold" },
+  description: { fontSize: 14, color: "#666", marginTop: 4 },
 });

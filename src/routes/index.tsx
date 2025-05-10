@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import Favorites from "../pages/Favorites";
 import Exercises from "../pages/Exercises";
 import ExerciseList from "../pages/ExerciseList";
+import ExerciseDetail from "../pages/ExerciseDetail";
 
 type RootStackParamList = {
   Welcome: undefined;
@@ -16,6 +17,7 @@ type RootStackParamList = {
   Favorites: undefined;
   Exercises: undefined;
   ExerciseList: undefined;
+  ExerciseDetail: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -56,6 +58,11 @@ export default function Routes() {
       <Stack.Screen
         name="ExerciseList"
         component={ExerciseList}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ExerciseDetail"
+        component={ExerciseDetail}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
