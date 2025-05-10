@@ -201,7 +201,9 @@ export default function Home({ navigation }: { navigation: any }) {
   const renderBodyPart = ({ item }: { item: any }) => (
     <TouchableOpacity
       style={[styles.bodyPartCard, { backgroundColor: item.color }]}
-      onPress={() => navigation.navigate("Exercises", { bodyPart: item.name })}
+      onPress={() =>
+        navigation.navigate("ExerciseList", { muscleGroup: item.name })
+      }
     >
       {item.image ? (
         <View style={styles.imageCard}>
