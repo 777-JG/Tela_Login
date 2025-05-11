@@ -29,7 +29,7 @@ export default function ExerciseList({
   const fetchExercises = async () => {
     const { data, error } = await supabase
       .from("exercicio")
-      .select("id, nome, descricao, grupo_muscular")
+      .select("id, nome, descricao, grupo_muscular, video_gif_url")
       .eq("grupo_muscular", muscleGroup);
 
     if (!error) setExercises(data || []);

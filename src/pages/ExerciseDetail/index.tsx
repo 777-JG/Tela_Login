@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -28,10 +29,17 @@ export default function ExerciseDetail({
         <View style={{ width: 24 }} />
       </View>
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Aqui futuramente você pode colocar o GIF */}
-        <View style={styles.gifPlaceholder}>
-          <Text style={{ color: "#aaa" }}>[GIF do exercício futuramente]</Text>
-        </View>
+        {exercise.video_gif_url ? (
+          <Image
+            source={{ uri: exercise.video_gif_url }}
+            style={styles.exerciseGif}
+            resizeMode="contain"
+          />
+        ) : (
+          <View style={styles.gifPlaceholder}>
+            <Text style={{ color: "#aaa" }}>GIF não disponível</Text>
+          </View>
+        )}
         <Text style={styles.description}>{exercise.descricao}</Text>
       </ScrollView>
     </SafeAreaView>
@@ -51,6 +59,12 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 18, fontWeight: "600", color: "#333" },
   content: { padding: 16 },
+  exerciseGif: {
+    width: "100%",
+    height: 300,
+    borderRadius: 12,
+    marginBottom: 24,
+  },
   gifPlaceholder: {
     height: 200,
     backgroundColor: "#f0f0f0",

@@ -36,28 +36,48 @@ const muscleGroups = [
   },
   {
     id: "3",
-    name: "Pernas",
-    image: require("../../assets/quadriceps.jpg"),
-  },
-  {
-    id: "4",
-    name: "Glúteos",
-    image: require("../../assets/gluteos.jpg"),
-  },
-  {
-    id: "5",
     name: "Ombros",
     image: require("../../assets/ombro.jpg"),
   },
   {
-    id: "6",
+    id: "4",
     name: "Bíceps",
     image: require("../../assets/biceps.jpg"),
   },
   {
-    id: "7",
+    id: "5",
     name: "Tríceps",
     image: require("../../assets/triceps.jpg"),
+  },
+  {
+    id: "6",
+    name: "Antebraço",
+    image: require("../../assets/antebraco.jpg"),
+  },
+  {
+    id: "7",
+    name: "Trapézio",
+    image: require("../../assets/trapezio.jpg"),
+  },
+  {
+    id: "8",
+    name: "Lombar",
+    image: require("../../assets/lombar.jpg"),
+  },
+  {
+    id: "9",
+    name: "Pernas",
+    image: require("../../assets/quadriceps.jpg"),
+  },
+  {
+    id: "10",
+    name: "Glúteos",
+    image: require("../../assets/gluteos.jpg"),
+  },
+  {
+    id: "11",
+    name: "Panturrilha",
+    image: require("../../assets/panturrilha.jpg"),
   },
 ];
 
