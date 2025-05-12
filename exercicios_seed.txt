@@ -29,4 +29,24 @@ Tríceps Testa | Tríceps | Deitado, segure a barra com as mãos afastadas, flex
 Tríceps Pulley | Tríceps | Em pé, segure a barra da polia alta, empurre para baixo até estender os cotovelos e retorne.
 Mergulho entre bancos | Tríceps | Apoie as mãos em um banco atrás do corpo e os pés em outro à frente, flexione os cotovelos abaixando o corpo e retorne.
 
-Elevação de Panturrilha | Panturrilha | Em pé, com os pés na ponta de um degrau, eleve os calcanhares o máximo possível e retorne. 
+Elevação de Panturrilha | Panturrilha | Em pé, com os pés na ponta de um degrau, eleve os calcanhares o máximo possível e retorne.
+
+# Exercícios para Antebraço
+Rosca de Punho | Antebraço | Sentado, segure a barra com as palmas para cima, apoie os antebraços nas coxas e flexione os punhos para cima e para baixo.
+Rosca de Punho Invertida | Antebraço | Sentado, segure a barra com as palmas para baixo, apoie os antebraços nas coxas e flexione os punhos para cima e para baixo.
+Rolamento de Barra | Antebraço | Em pé, segure uma barra com peso nas pontas, role a barra para frente e para trás usando apenas os dedos.
+
+# Exercícios para Trapézio
+Encolhimento com Barra | Trapézio | Em pé, segure a barra à frente do corpo, eleve os ombros o máximo possível e retorne.
+Encolhimento com Halteres | Trapézio | Em pé, segure um halter em cada mão, eleve os ombros o máximo possível e retorne.
+Face Pull | Trapézio | Em pé, segure a corda da polia alta, puxe em direção ao rosto separando as mãos e retorne.
+
+# Exercícios para Lombar
+Hiperextensão | Lombar | Deitado no aparelho de hiperextensão, mantenha o corpo reto e eleve o tronco até alinhar com as pernas.
+Ponte | Lombar | Deitado de costas, eleve o quadril do chão mantendo as costas retas e retorne.
+Superman | Lombar | Deitado de bruços, eleve simultaneamente braços e pernas do chão e retorne.
+
+# Exercícios para Glúteos
+Agachamento Sumô | Glúteos | Em pé com pernas afastadas e pés apontados para fora, agache mantendo o peito erguido e retorne.
+Elevação Pélvica | Glúteos | Deitado de costas, apoie os pés no chão, eleve o quadril do chão e retorne.
+Afundo com Passada | Glúteos | Dê um passo à frente, flexione o joelho da frente até formar 90 graus e retorne. 

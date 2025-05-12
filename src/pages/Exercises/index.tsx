@@ -14,6 +14,7 @@ import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "../../lib/supabase";
 import BottomNavigation from "../../components/BottomNavigation";
+import { LinearGradient } from "expo-linear-gradient";
 
 type Exercise = {
   id: string;
@@ -97,14 +98,15 @@ export default function Exercises({ navigation }: { navigation: any }) {
 
   const renderMuscleGroup = ({ item }: { item: any }) => (
     <TouchableOpacity
-      style={styles.muscleGroupItem}
+      style={styles.muscleGroupCard}
       onPress={() =>
         navigation.navigate("ExerciseList", { muscleGroup: item.name })
       }
     >
-      <Image source={item.image} style={styles.muscleIcon} />
-      <Text style={styles.muscleGroupName}>{item.name}</Text>
-      <Ionicons name="chevron-forward" size={24} color="#999" />
+      <Image source={item.image} style={styles.muscleGroupImage} />
+      <View style={styles.muscleGroupOverlay}>
+        <Text style={styles.muscleGroupName}>{item.name}</Text>
+      </View>
     </TouchableOpacity>
   );
 
@@ -150,7 +152,8 @@ export default function Exercises({ navigation }: { navigation: any }) {
         data={filteredMuscleGroups}
         renderItem={renderMuscleGroup}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContainer}
+        numColumns={2}
+        contentContainerStyle={styles.muscleGroupsGrid}
       />
 
       {/* Lista de Exercícios */}
@@ -172,6 +175,12 @@ export default function Exercises({ navigation }: { navigation: any }) {
         />
       )}
 
+      <View style={styles.bottomGradient}>
+        <LinearGradient
+          colors={["transparent", "rgba(255,255,255,0.9)", "#fff"]}
+          style={styles.gradient}
+        />
+      </View>
       <BottomNavigation currentRoute="Exercises" />
     </SafeAreaView>
   );
@@ -210,29 +219,45 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
-  listContainer: {
-    paddingTop: 8,
+  muscleGroupsGrid: {
+    padding: 8,
+    paddingBottom: 80,
   },
-  muscleGroupItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+  muscleGroupCard: {
+    flex: 1,
+    margin: 8,
+    borderRadius: 12,
+    overflow: "hidden",
+    height: 160,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  muscleIcon: {
-    width: 40,
-    height: 40,
-    marginRight: 12,
+  muscleGroupImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  muscleGroupOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    padding: 12,
   },
   muscleGroupName: {
-    flex: 1,
+    color: "#fff",
     fontSize: 16,
-    color: "#333",
+    fontWeight: "600",
+    textAlign: "center",
   },
   exerciseList: {
     padding: 15,
+    paddingBottom: 80,
   },
   exerciseCard: {
     flexDirection: "row",
@@ -277,5 +302,16 @@ const styles = StyleSheet.create({
     color: "#666",
     marginTop: 10,
     textAlign: "center",
+  },
+  bottomGradient: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 100,
+    pointerEvents: "none",
+  },
+  gradient: {
+    flex: 1,
   },
 });

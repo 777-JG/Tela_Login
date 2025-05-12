@@ -16,6 +16,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import { Ionicons } from "@expo/vector-icons";
 import BottomNavigation from "../../components/BottomNavigation";
+import { LinearGradient } from "expo-linear-gradient";
 
 const DRAWER_WIDTH = Dimensions.get("window").width * 0.7;
 {
@@ -222,7 +223,10 @@ export default function Home({ navigation }: { navigation: any }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" backgroundColor="#007AFF" />
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollViewContent}
+      >
         <View style={styles.header}>
           <View style={styles.headerContent}>
             <View>
@@ -302,6 +306,12 @@ export default function Home({ navigation }: { navigation: any }) {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <View style={styles.bottomGradient}>
+        <LinearGradient
+          colors={["transparent", "rgba(245,245,245,0.9)", "#f5f5f5"]}
+          style={styles.gradient}
+        />
+      </View>
       <BottomNavigation currentRoute="Home" />
       {/*Quando o drawer está aberto*/}
       <Modal
@@ -364,7 +374,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    marginBottom: 60,
+  },
+  scrollViewContent: {
+    paddingBottom: 80, // Espaço para a barra de navegação
   },
   header: {
     padding: 20,
@@ -636,5 +648,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     marginRight: 8,
+  },
+  bottomGradient: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 100,
+    pointerEvents: "none",
+  },
+  gradient: {
+    flex: 1,
   },
 });
