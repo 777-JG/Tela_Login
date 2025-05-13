@@ -5,10 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Image } from "expo-image";
 
 export default function ExerciseDetail({
   route,
@@ -33,7 +33,7 @@ export default function ExerciseDetail({
           <Image
             source={{ uri: exercise.video_gif_url }}
             style={styles.exerciseGif}
-            resizeMode="contain"
+            contentFit="contain"
           />
         ) : (
           <View style={styles.gifPlaceholder}>
