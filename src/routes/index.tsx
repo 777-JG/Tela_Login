@@ -8,6 +8,7 @@ import Favorites from "../pages/Favorites";
 import Exercises from "../pages/Exercises";
 import ExerciseList from "../pages/ExerciseList";
 import ExerciseDetail from "../pages/ExerciseDetail";
+import SuggestedWorkout from "../pages/SuggestedWorkout";
 
 type RootStackParamList = {
   Welcome: undefined;
@@ -18,6 +19,7 @@ type RootStackParamList = {
   Exercises: undefined;
   ExerciseList: undefined;
   ExerciseDetail: undefined;
+  SuggestedWorkout: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -64,6 +66,13 @@ export default function Routes() {
         name="ExerciseDetail"
         component={ExerciseDetail}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SuggestedWorkout"
+        component={SuggestedWorkout}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

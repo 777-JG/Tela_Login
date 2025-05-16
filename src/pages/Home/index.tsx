@@ -294,36 +294,28 @@ export default function Home({ navigation }: { navigation: any }) {
             contentContainerStyle={styles.bodyPartList}
           />
         </View>
-        <View style={styles.workoutSection}>
-          <Text style={styles.sectionTitle}>Treino Personalizado</Text>
-          <TouchableOpacity
-            style={styles.customWorkoutCard}
-            onPress={() => navigation.navigate("CustomWorkout")}
-          >
-            <View style={styles.customWorkoutContent}>
-              <View style={styles.customWorkoutHeader}>
-                <Ionicons name="fitness" size={24} color="#007AFF" />
-                <Text style={styles.customWorkoutTitle}>Monte seu treino</Text>
-              </View>
-              <Text style={styles.customWorkoutDescription}>
-                Crie um treino personalizado com base nos seus objetivos
-              </Text>
-              <View style={styles.customWorkoutFeatures}>
-                <View style={styles.featureItem}>
-                  <Ionicons name="barbell-outline" size={20} color="#666" />
-                  <Text style={styles.featureText}>Escolha exercícios</Text>
-                </View>
-              </View>
+        <TouchableOpacity
+          style={styles.customWorkoutCard}
+          onPress={() => navigation.navigate("SuggestedWorkout")}
+        >
+          <View style={styles.customWorkoutContent}>
+            <View style={styles.customWorkoutHeader}>
+              <Ionicons name="fitness" size={24} color="#007AFF" />
+              <Text style={styles.customWorkoutTitle}>Sugestão de Treino</Text>
             </View>
-            <TouchableOpacity
-              style={styles.createButton}
-              onPress={() => navigation.navigate("CustomWorkout")}
-            >
-              <Text style={styles.createButtonText}>Criar Treino</Text>
-              <Ionicons name="arrow-forward" size={20} color="#fff" top={1.5} />
-            </TouchableOpacity>
+            <Text style={styles.customWorkoutDescription}>
+              Receba sugestões personalizadas de treino baseadas nos grupos
+              musculares que você deseja trabalhar
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={styles.createButton}
+            onPress={() => navigation.navigate("SuggestedWorkout")}
+          >
+            <Text style={styles.createButtonText}>Ver Sugestões</Text>
+            <Ionicons name="arrow-forward" size={20} color="#fff" />
           </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
       </ScrollView>
       <View style={styles.bottomGradient}>
         <LinearGradient
