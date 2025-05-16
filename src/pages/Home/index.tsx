@@ -19,9 +19,7 @@ import BottomNavigation from "../../components/BottomNavigation";
 import { LinearGradient } from "expo-linear-gradient";
 
 const DRAWER_WIDTH = Dimensions.get("window").width * 0.7;
-{
-  /*Função Membros Superiores*/
-}
+
 const upperBodyParts = [
   {
     id: "1",
@@ -54,9 +52,7 @@ const upperBodyParts = [
     color: "#D4A5A5",
   },
 ];
-{
-  /*Função Membros Inferiores*/
-}
+
 const lowerBodyParts = [
   {
     id: "6",
@@ -89,10 +85,10 @@ export default function Home({ navigation }: { navigation: any }) {
   const slideAnim = useRef(new Animated.Value(DRAWER_WIDTH)).current;
   const [userName, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  // --- NOVO: Estados para check-in ---
+  const [checkedDays, setCheckedDays] = useState<Record<string, boolean>>({});
+  const [today, setToday] = useState<string>("");
 
-  {
-    /*Efeito para buscar dados do usuário logado*/
-  }
   useEffect(() => {
     const fetchUserData = async () => {
       const {
@@ -121,13 +117,14 @@ export default function Home({ navigation }: { navigation: any }) {
       }
     };
 
+    // --- NOVO: Definir dia atual ---
+    const daysOfWeek = ["D", "S", "T", "Q", "Q", "S", "S"];
+    const todayIndex = new Date().getDay();
+    setToday(daysOfWeek[todayIndex]);
+
     fetchUserData();
   }, []);
-  {
-    {
-      /*Função para Abrir Drawer*/
-    }
-  }
+
   const openDrawer = () => {
     setIsDrawerVisible(true);
     Animated.timing(slideAnim, {
@@ -136,8 +133,7 @@ export default function Home({ navigation }: { navigation: any }) {
       useNativeDriver: true,
     }).start();
   };
-  {
-  }
+
   const closeDrawer = () => {
     Animated.timing(slideAnim, {
       toValue: DRAWER_WIDTH,
@@ -147,8 +143,15 @@ export default function Home({ navigation }: { navigation: any }) {
       setIsDrawerVisible(false);
     });
   };
-  {
-  }
+
+  // --- NOVO: Função de check-in ---
+  const handleCheckIn = () => {
+    setCheckedDays(prev => ({
+      ...prev,
+      [today]: true,
+    }));
+  };
+
   const menuItems = [
     {
       icon: (
@@ -161,7 +164,6 @@ export default function Home({ navigation }: { navigation: any }) {
       label: "Meu Perfil",
       onPress: () => navigation.navigate("Profile"),
     },
-
     {
       icon: <Ionicons name="stats-chart" size={24} color={"black"}></Ionicons>,
       label: "Estatísticas",
@@ -194,11 +196,6 @@ export default function Home({ navigation }: { navigation: any }) {
     },
   ];
 
-  {
-    {
-      /*Cards de grupos Musculares*/
-    }
-  }
   const renderBodyPart = ({ item }: { item: any }) => (
     <TouchableOpacity
       style={[styles.bodyPartCard, { backgroundColor: item.color }]}
@@ -237,7 +234,6 @@ export default function Home({ navigation }: { navigation: any }) {
                 O que você vai treinar hoje?
               </Text>
             </View>
-            {/*Aperte para abrir o Drawer*/}
             <TouchableOpacity style={styles.profileButton} onPress={openDrawer}>
               <View style={styles.profileImageContainer}>
                 <View style={styles.profileImage}>
@@ -250,7 +246,32 @@ export default function Home({ navigation }: { navigation: any }) {
             </TouchableOpacity>
           </View>
         </View>
-        {/*Grupos Musculares Inferiores*/}
+
+        {/* --- NOVO: Seção Check-in --- */}
+        <View style={styles.checkInSection}>
+          <Text style={styles.sectionTitle}>Check-in</Text>
+          <TouchableOpacity 
+            style={styles.checkInButton} 
+            onPress={handleCheckIn}
+          >
+            <Text style={styles.checkInButtonText}>Fazer check-in hoje</Text>
+          </TouchableOpacity>
+          <View style={styles.daysContainer}>
+            {["D", "S", "T", "Q", "Q", "S", "S"].map((day, index) => (
+              <View 
+                key={index} 
+                style={[
+                  styles.dayCircle,
+                  checkedDays[day] && styles.checkedDay,
+                  day === today && styles.todayIndicator,
+                ]}
+              >
+                <Text style={styles.dayText}>{day}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+
         <View style={styles.bodyPartSelector}>
           <Text style={styles.sectionTitle}>Membros Superiores</Text>
           <FlatList
@@ -262,7 +283,6 @@ export default function Home({ navigation }: { navigation: any }) {
             contentContainerStyle={styles.bodyPartList}
           />
         </View>
-        {/*Grupos Musculares Superiores*/}
         <View style={styles.bodyPartSelector}>
           <Text style={styles.sectionTitle}>Membros Inferiores</Text>
           <FlatList
@@ -274,7 +294,6 @@ export default function Home({ navigation }: { navigation: any }) {
             contentContainerStyle={styles.bodyPartList}
           />
         </View>
-        {/*Sessão para personalizar treino*/}
         <View style={styles.workoutSection}>
           <Text style={styles.sectionTitle}>Treino Personalizado</Text>
           <TouchableOpacity
@@ -313,7 +332,6 @@ export default function Home({ navigation }: { navigation: any }) {
         />
       </View>
       <BottomNavigation currentRoute="Home" />
-      {/*Quando o drawer está aberto*/}
       <Modal
         visible={isDrawerVisible}
         transparent
@@ -333,7 +351,6 @@ export default function Home({ navigation }: { navigation: any }) {
               },
             ]}
           >
-            {/*Círculo do perfil*/}
             <View style={styles.drawerHeader}>
               <View style={styles.drawerProfileImage}>
                 <Text style={styles.drawerProfile}>
@@ -376,7 +393,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollViewContent: {
-    paddingBottom: 80, // Espaço para a barra de navegação
+    paddingBottom: 80,
   },
   header: {
     padding: 20,
@@ -429,44 +446,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#4CAF50",
     borderWidth: 2,
     borderColor: "#f5f5f5",
-  },
-  profileCard: {
-    backgroundColor: "#fff",
-    borderRadius: 15,
-    padding: 15,
-    marginTop: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  profileInfo: {
-    marginTop: 5,
-  },
-  profileStats: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  statItem: {
-    alignItems: "center",
-  },
-  statNumber: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#007AFF",
-  },
-  statLabel: {
-    fontSize: 12,
-    color: "#666",
-    marginTop: 4,
-  },
-  statDivider: {
-    width: 1,
-    height: 30,
-    backgroundColor: "#E0E0E0",
   },
   modalOverlay: {
     flex: 1,
@@ -659,5 +638,45 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
+  },
+  // --- NOVO: Estilos do Check-in ---
+  checkInSection: {
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+  checkInButton: {
+    backgroundColor: "#007AFF",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  checkInButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  daysContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  dayCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#f0f0f0",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  checkedDay: {
+    backgroundColor: "#007AFF",
+  },
+  todayIndicator: {
+    borderWidth: 2,
+    borderColor: "#007AFF",
+  },
+  dayText: {
+    fontWeight: "bold",
+    color: "#333",
   },
 });
