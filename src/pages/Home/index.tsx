@@ -23,9 +23,9 @@ const DRAWER_WIDTH = Dimensions.get("window").width * 0.7;
 const upperBodyParts = [
   {
     id: "1",
-    name: "Peito",
-    image: require("../../assets/peito.jpg"),
-    color: "#FF6B6B",
+    name: "Abdômen",
+    image: require("../../assets/abdomen.jpg"),
+    color: "#D4A5A5",
   },
   {
     id: "2",
@@ -47,9 +47,9 @@ const upperBodyParts = [
   },
   {
     id: "5",
-    name: "Abdômen",
-    image: require("../../assets/abdomen.jpg"),
-    color: "#D4A5A5",
+    name: "Peito",
+    image: require("../../assets/peito.jpg"),
+    color: "#FF6B6B",
   },
 ];
 
@@ -146,7 +146,7 @@ export default function Home({ navigation }: { navigation: any }) {
 
   // --- NOVO: Função de check-in ---
   const handleCheckIn = () => {
-    setCheckedDays(prev => ({
+    setCheckedDays((prev) => ({
       ...prev,
       [today]: true,
     }));
@@ -250,16 +250,16 @@ export default function Home({ navigation }: { navigation: any }) {
         {/* --- NOVO: Seção Check-in --- */}
         <View style={styles.checkInSection}>
           <Text style={styles.sectionTitle}>Check-in</Text>
-          <TouchableOpacity 
-            style={styles.checkInButton} 
+          <TouchableOpacity
+            style={styles.checkInButton}
             onPress={handleCheckIn}
           >
             <Text style={styles.checkInButtonText}>Fazer check-in hoje</Text>
           </TouchableOpacity>
           <View style={styles.daysContainer}>
             {["D", "S", "T", "Q", "Q", "S", "S"].map((day, index) => (
-              <View 
-                key={index} 
+              <View
+                key={index}
                 style={[
                   styles.dayCircle,
                   checkedDays[day] && styles.checkedDay,
