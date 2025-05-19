@@ -10,7 +10,10 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useRef, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
@@ -82,6 +85,8 @@ export default function Home({ navigation }: { navigation: any }) {
   // --- NOVO: Estados para check-in ---
   const [checkedDays, setCheckedDays] = useState<Record<string, boolean>>({});
   const [today, setToday] = useState<string>("");
+
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -212,13 +217,15 @@ export default function Home({ navigation }: { navigation: any }) {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="light" backgroundColor="#007AFF" />
+    <SafeAreaView style={styles.container} edges={["right", "left", "bottom"]}>
+      <View style={[styles.statusBarContainer, { height: insets.top }]}>
+        <StatusBar style="light" />
+      </View>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollViewContent}
       >
-        <View style={styles.header}>
+        <View style={[styles.header, { paddingTop: insets.top }]}>
           <View style={styles.headerContent}>
             <View>
               <Text style={styles.greeting}>
@@ -374,6 +381,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
+  },
+  statusBarContainer: {
+    backgroundColor: "#007AFF",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
   },
   scrollView: {
     flex: 1,

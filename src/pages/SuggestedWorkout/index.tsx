@@ -1,11 +1,21 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import MuscleGroupSelector from "../../components/MuscleGroupSelector";
 import ExerciseCard from "../../components/ExerciseCard";
 import { getWorkoutSuggestions } from "../../services/workoutService";
 import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function SuggestedWorkout() {
+  const insets = useSafeAreaInsets();
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const navigation = useNavigation();
@@ -31,7 +41,16 @@ export default function SuggestedWorkout() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sugestão de Treino</Text>
+      <View style={[styles.statusBarContainer, { height: insets.top }]}>
+        <StatusBar style="light" />
+      </View>
+      <View style={[styles.header, { paddingTop: insets.top }]}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={24} color="#333" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Sugestão de Treino</Text>
+        <View style={{ width: 24 }} />
+      </View>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <MuscleGroupSelector
           selectedGroups={selectedGroups}
@@ -75,14 +94,7 @@ export default function SuggestedWorkout() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f5f5f5" },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginTop: 50,
-    marginBottom: 10,
-    textAlign: "center",
-    color: "#333",
-  },
+  title: {},
   scrollContent: {
     paddingBottom: 20,
   },
@@ -95,5 +107,31 @@ const styles = StyleSheet.create({
     color: "#888",
     marginTop: 20,
     fontSize: 16,
+  },
+  statusBarContainer: {
+    backgroundColor: "#007AFF",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    marginBottom: 0,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#333",
+    textAlign: "center",
+    flex: 1,
+    paddingTop: 10,
   },
 });

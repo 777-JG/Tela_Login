@@ -6,7 +6,10 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,6 +19,7 @@ import BottomNavigation from "../../components/BottomNavigation";
 export default function Favorites({ navigation }: { navigation: any }) {
   const [favoriteWorkouts, setFavoriteWorkouts] = useState([]);
   const [userName, setUsername] = useState("");
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     fetchUserData();
@@ -52,10 +56,12 @@ export default function Favorites({ navigation }: { navigation: any }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" backgroundColor="#007AFF" />
+      <View style={[styles.statusBarContainer, { height: insets.top }]}>
+        <StatusBar style="light" />
+      </View>
 
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top }]}>
         <View>
           <Text style={styles.headerTitle}>Favoritos</Text>
           <Text style={styles.headerSubtitle}>
@@ -153,5 +159,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 14,
+  },
+  statusBarContainer: {
+    backgroundColor: "#007AFF",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
   },
 });
