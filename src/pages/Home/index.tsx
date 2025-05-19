@@ -56,15 +56,9 @@ const upperBodyParts = [
 const lowerBodyParts = [
   {
     id: "6",
-    name: "Quadríceps",
+    name: "Pernas",
     image: require("../../assets/quadriceps.jpg"),
     color: "#45B7D1",
-  },
-  {
-    id: "7",
-    name: "Posterior",
-    image: require("../../assets/posterior.jpg"),
-    color: "#9B59B6",
   },
   {
     id: "8",
