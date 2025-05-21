@@ -16,8 +16,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "../../lib/supabase";
 import BottomNavigation from "../../components/BottomNavigation";
 
+type Exercicio = {
+  id: number;
+  nome: string;
+  grupo_muscular: string;
+  // outros campos se necessário
+};
+
 export default function Favorites({ navigation }: { navigation: any }) {
-  const [favoriteWorkouts, setFavoriteWorkouts] = useState([]);
+  const [favoriteWorkouts, setFavoriteWorkouts] = useState<Exercicio[]>([]);
   const [userName, setUsername] = useState("");
   const insets = useSafeAreaInsets();
 
@@ -42,7 +49,7 @@ export default function Favorites({ navigation }: { navigation: any }) {
         .from("usuario")
         .select("nome")
         .eq("email", user.email)
-        .single();
+        .maybeSingle();
 
       if (!error && data) {
         setUsername(data.nome);
@@ -51,7 +58,56 @@ export default function Favorites({ navigation }: { navigation: any }) {
   };
 
   const fetchFavorites = async () => {
-    // Implementar busca de favoritos no banco de dados
+    // 1. Buscar usuário autenticado
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // 2. Buscar o id inteiro do usuário na tabela usuario
+    const { data: usuarioData, error: usuarioError } = await supabase
+      .from("usuario")
+      .select("id")
+      .eq("email", user.email)
+      .maybeSingle();
+
+    if (usuarioError || !usuarioData) {
+      console.error("Erro ao buscar usuário na tabela usuario:", usuarioError);
+      return;
+    }
+
+    const usuarioIdInt = usuarioData.id;
+
+    // 3. Buscar todos os favoritos desse usuário
+    const { data: favoritos, error: favoritosError } = await supabase
+      .from("favorito")
+      .select("exercicio_id")
+      .eq("usuario_id", usuarioIdInt);
+
+    if (favoritosError) {
+      console.error("Erro ao buscar favoritos:", favoritosError);
+      return;
+    }
+
+    if (!favoritos || favoritos.length === 0) {
+      setFavoriteWorkouts([]);
+      return;
+    }
+
+    // 4. Buscar os dados dos exercícios favoritados
+    const exercicioIds = favoritos.map((fav) => fav.exercicio_id);
+
+    const { data: exercicios, error: exerciciosError } = await supabase
+      .from("exercicio")
+      .select("*")
+      .in("id", exercicioIds);
+
+    if (exerciciosError) {
+      console.error("Erro ao buscar exercícios favoritos:", exerciciosError);
+      return;
+    }
+
+    setFavoriteWorkouts(exercicios);
   };
 
   return (
@@ -70,10 +126,9 @@ export default function Favorites({ navigation }: { navigation: any }) {
         </View>
       </View>
 
-      <ScrollView style={styles.content}>
-        {/* Seção de Treinos Favoritos */}
+      <View style={styles.content}>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Treinos Favoritos</Text>
+          <Text style={styles.sectionTitle}>Exercícios Favoritos</Text>
           {favoriteWorkouts.length === 0 ? (
             <View style={styles.emptyState}>
               <Ionicons name="star-outline" size={48} color="#666" />
@@ -82,18 +137,39 @@ export default function Favorites({ navigation }: { navigation: any }) {
               </Text>
               <TouchableOpacity
                 style={styles.emptyStateButton}
-                onPress={() => navigation.navigate("Workouts")}
+                onPress={() => navigation.navigate("Exercises")}
               >
                 <Text style={styles.emptyStateButtonText}>
-                  Explorar Treinos
+                  Explorar Exercícios
                 </Text>
               </TouchableOpacity>
             </View>
           ) : (
-            <Text>Lista de favoritos aqui</Text>
+            <FlatList
+              data={favoriteWorkouts}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: "#fff",
+                    borderRadius: 10,
+                    padding: 16,
+                    marginBottom: 10,
+                  }}
+                  onPress={() =>
+                    navigation.navigate("ExerciseDetail", { exercise: item })
+                  }
+                >
+                  <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                    {item.nome}
+                  </Text>
+                  <Text style={{ color: "#666" }}>{item.grupo_muscular}</Text>
+                </TouchableOpacity>
+              )}
+            />
           )}
         </View>
-      </ScrollView>
+      </View>
 
       <BottomNavigation currentRoute="Favorites" />
     </SafeAreaView>

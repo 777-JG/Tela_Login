@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
   TextInput,
   FlatList,
   Image,
@@ -114,18 +113,59 @@ export default function Exercises({ navigation }: { navigation: any }) {
     </TouchableOpacity>
   );
 
-  const renderExerciseCard = ({ item }: { item: Exercise }) => (
-    <TouchableOpacity
-      style={styles.exerciseCard}
-      onPress={() => navigation.navigate("ExerciseDetail", { exercise: item })}
-    >
-      <View style={styles.exerciseInfo}>
-        <Text style={styles.exerciseName}>{item.name}</Text>
-        <Text style={styles.exerciseMuscleGroup}>{item.muscle_group}</Text>
-      </View>
-      <Ionicons name="chevron-forward" size={24} color="#666" />
-    </TouchableOpacity>
-  );
+  const renderExerciseCard = ({ item }: { item: Exercise }) => {
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+      checkIfFavorite(item.id);
+    }, [item.id]);
+
+    const checkIfFavorite = async (exerciseId: string) => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data, error } = await supabase
+          .from("favorito")
+          .select("*")
+          .eq("usuario_id", user.id)
+          .eq("exercicio_id", exerciseId)
+          .single();
+
+        if (error) throw error;
+        setIsFavorite(!!data);
+      } catch (error) {
+        console.error("Erro ao verificar favorito:", error);
+      }
+    };
+
+    return (
+      <TouchableOpacity
+        style={styles.exerciseCard}
+        onPress={() =>
+          navigation.navigate("ExerciseDetail", { exercise: item })
+        }
+      >
+        <View style={styles.exerciseInfo}>
+          <Text style={styles.exerciseName}>{item.name}</Text>
+          <Text style={styles.exerciseMuscleGroup}>{item.muscle_group}</Text>
+        </View>
+        <View style={styles.exerciseActions}>
+          {isFavorite && (
+            <Ionicons
+              name="heart"
+              size={20}
+              color="#ff3b30"
+              style={styles.favoriteIcon}
+            />
+          )}
+          <Ionicons name="chevron-forward" size={24} color="#666" />
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -215,7 +255,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee",
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "600",
     color: "#333",
   },
@@ -327,5 +367,12 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
+  },
+  exerciseActions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  favoriteIcon: {
+    marginRight: 8,
   },
 });
