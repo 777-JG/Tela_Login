@@ -18,14 +18,17 @@ export default function ExerciseList({
   route: any;
   navigation: any;
 }) {
+  // 1. Obter o grupo muscular selecionado
   const { muscleGroup } = route.params;
+  // 2. Definir estado para armazenar os exercícios
   const [exercises, setExercises] = useState<any[]>([]);
+  // 3. Definir estado para armazenar a consulta de pesquisa
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchExercises();
   }, []);
-
+  // 4. Buscar exercícios do grupo muscular selecionado
   const fetchExercises = async () => {
     const { data, error } = await supabase
       .from("exercicio")
@@ -39,7 +42,7 @@ export default function ExerciseList({
   const filteredExercises = exercises.filter((exercise) =>
     exercise.nome.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+  //
   const renderItem = ({ item }: { item: any }) => (
     <TouchableOpacity
       style={styles.item}

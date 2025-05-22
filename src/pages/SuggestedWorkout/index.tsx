@@ -16,10 +16,11 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function SuggestedWorkout() {
   const insets = useSafeAreaInsets();
+  // 1. Definir estado para armazenar os grupos musculares selecionados
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const navigation = useNavigation();
-
+  // 2. Função para lidar com a seleção de grupos musculares
   const handleSelectGroup = async (group: string) => {
     let newSelectedGroups = [...selectedGroups];
 

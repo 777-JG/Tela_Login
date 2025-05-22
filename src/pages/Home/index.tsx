@@ -161,12 +161,12 @@ export default function Home({ navigation }: { navigation: any }) {
         ></Ionicons>
       ),
       label: "Meu Perfil",
-      onPress: () => navigation.navigate("Profile"),
+      onPress: () => navigation.navigate(""),
     },
     {
       icon: <Ionicons name="stats-chart" size={24} color={"black"}></Ionicons>,
       label: "Estatísticas",
-      onPress: () => navigation.navigate("Statistics"),
+      onPress: () => navigation.navigate(""),
     },
     {
       icon: (
@@ -177,14 +177,14 @@ export default function Home({ navigation }: { navigation: any }) {
         ></Ionicons>
       ),
       label: "Ajuda",
-      onPress: () => navigation.navigate("Help"),
+      onPress: () => navigation.navigate(""),
     },
     {
       icon: (
         <Ionicons name="settings-outline" size={24} color={"black"}></Ionicons>
       ),
       label: "Configurações",
-      onPress: () => navigation.navigate("Settings"),
+      onPress: () => navigation.navigate(""),
     },
     {
       icon: (

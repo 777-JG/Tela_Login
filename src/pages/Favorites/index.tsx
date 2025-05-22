@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
   FlatList,
 } from "react-native";
 import {
@@ -32,7 +31,7 @@ export default function Favorites({ navigation }: { navigation: any }) {
     fetchUserData();
     fetchFavorites();
   }, []);
-
+  // 1. Buscar dados do usuário autenticado
   const fetchUserData = async () => {
     const {
       data: { user },
@@ -58,13 +57,13 @@ export default function Favorites({ navigation }: { navigation: any }) {
   };
 
   const fetchFavorites = async () => {
-    // 1. Buscar usuário autenticado
+    // 2. Buscar usuário autenticado
     const {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) return;
 
-    // 2. Buscar o id inteiro do usuário na tabela usuario
+    // 3. Buscar o id inteiro do usuário na tabela usuario
     const { data: usuarioData, error: usuarioError } = await supabase
       .from("usuario")
       .select("id")
@@ -78,7 +77,7 @@ export default function Favorites({ navigation }: { navigation: any }) {
 
     const usuarioIdInt = usuarioData.id;
 
-    // 3. Buscar todos os favoritos desse usuário
+    // 4. Buscar todos os favoritos desse usuário
     const { data: favoritos, error: favoritosError } = await supabase
       .from("favorito")
       .select("exercicio_id")
@@ -94,7 +93,7 @@ export default function Favorites({ navigation }: { navigation: any }) {
       return;
     }
 
-    // 4. Buscar os dados dos exercícios favoritados
+    // 5. Buscar os dados dos exercícios favoritados
     const exercicioIds = favoritos.map((fav) => fav.exercicio_id);
 
     const { data: exercicios, error: exerciciosError } = await supabase

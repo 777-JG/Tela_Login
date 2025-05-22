@@ -98,7 +98,7 @@ export default function Exercises({ navigation }: { navigation: any }) {
   const filteredMuscleGroups = muscleGroups.filter((group) =>
     group.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+  // Mostra os grupos musculares filtrados
   const renderMuscleGroup = ({ item }: { item: any }) => (
     <TouchableOpacity
       style={styles.muscleGroupCard}
@@ -119,7 +119,7 @@ export default function Exercises({ navigation }: { navigation: any }) {
     useEffect(() => {
       checkIfFavorite(item.id);
     }, [item.id]);
-
+    //Checa se o exercício é favorito
     const checkIfFavorite = async (exerciseId: string) => {
       try {
         const {
@@ -182,7 +182,7 @@ export default function Exercises({ navigation }: { navigation: any }) {
         <View style={{ width: 24 }} />
       </View>
 
-      {/* Search Bar */}
+      {/* Barra de pesquisa */}
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#999" />
         <TextInput
@@ -193,7 +193,7 @@ export default function Exercises({ navigation }: { navigation: any }) {
         />
       </View>
 
-      {/* Muscle Groups List */}
+      {/* Lista grupo muscular */}
       <FlatList
         data={filteredMuscleGroups}
         renderItem={renderMuscleGroup}

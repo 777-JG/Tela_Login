@@ -18,9 +18,10 @@ export default function ExerciseDetail({
   route: any;
   navigation: any;
 }) {
+  // 1. Obter o exercício selecionado
   const { exercise } = route.params;
   const [isFavorite, setIsFavorite] = useState(false);
-
+  // 2. Definir estado para armazenar o nome do usuário
   useEffect(() => {
     checkIfFavorite();
   }, []);
@@ -30,7 +31,7 @@ export default function ExerciseDetail({
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) return null;
-
+    // 3. Buscar o ID do usuário na tabela usuario
     const { data: usuarioData, error: usuarioError } = await supabase
       .from("usuario")
       .select("id")
@@ -41,15 +42,15 @@ export default function ExerciseDetail({
       console.error("Erro ao buscar usuário na tabela usuario:", usuarioError);
       return null;
     }
-
+    // 4. Retornar o ID do usuário
     return usuarioData.id;
   };
-
+  // 5. Checar se o exercício é favorito
   const checkIfFavorite = async () => {
     try {
       const usuarioIdInt = await getUsuarioIdInt();
       if (!usuarioIdInt) return;
-
+      //
       const { data, error } = await supabase
         .from("favorito")
         .select("*")
@@ -63,7 +64,8 @@ export default function ExerciseDetail({
       console.error("Erro ao verificar favorito:", error);
     }
   };
-
+  // 6. Alternar favorito
+  // Adicionar ou remover o exercício dos favoritos
   const toggleFavorite = async () => {
     try {
       const usuarioIdInt = await getUsuarioIdInt();
@@ -92,7 +94,7 @@ export default function ExerciseDetail({
 
         if (error) throw error;
       }
-
+      // Atualizar o estado do favorito
       setIsFavorite(!isFavorite);
     } catch (error) {
       console.error("Erro ao atualizar favorito:", error);

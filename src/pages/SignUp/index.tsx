@@ -16,17 +16,19 @@ import { StatusBar } from "expo-status-bar";
 import { supabase } from "../../lib/supabase";
 
 export default function SignUp({ navigation }: { navigation: any }) {
+  // 1. Definir estado para armazenar o nome, email e senha
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  // 2. Definir estado para armazenar a visibilidade da senha
   const [showPassword, setShowPassword] = useState(false);
-
+  // 3. Definir estado para armazenar o usuário
   async function handleSignUp() {
     if (!nome || !email || !senha) {
       Alert.alert("Erro", "Preencha todos os campos!");
       return;
     }
-
+    // 4. Verificar se o email já está cadastrado
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password: senha,
@@ -36,7 +38,7 @@ export default function SignUp({ navigation }: { navigation: any }) {
       Alert.alert("Erro ao cadastrar", signUpError.message);
       return;
     }
-
+    // 5. Inserir o usuário na tabela usuario
     const { error: insertError } = await supabase.from("usuario").insert({
       nome,
       email,
@@ -49,7 +51,7 @@ export default function SignUp({ navigation }: { navigation: any }) {
       Alert.alert("Erro ao salvar no banco", insertError.message);
       return;
     }
-
+    // 6. Exibir mensagem de sucesso e redirecionar para a tela de login
     Alert.alert("Cadastro realizado!", "Agora você pode fazer login.");
     navigation.replace("SignIn");
   }

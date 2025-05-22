@@ -17,8 +17,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
 
 export default function SignIn({ navigation }: { navigation: any }) {
+  // 1. Definir estado para armazenar o email
   const [email, setEmail] = useState("");
+  // 2. Definir estado para armazenar a senha
   const [password, setPassword] = useState("");
+  // 3. Definir estado para armazenar a visibilidade da senha
   const [showPassword, setShowPassword] = useState(false);
 
   async function handleSignIn() {
@@ -26,7 +29,7 @@ export default function SignIn({ navigation }: { navigation: any }) {
       Alert.alert("Erro", "Preencha todos os campos.");
       return;
     }
-
+    // 4. Autenticar o usuário com o Supabase
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -36,7 +39,7 @@ export default function SignIn({ navigation }: { navigation: any }) {
       Alert.alert("Erro ao logar", error.message);
       return;
     }
-
+    // 5. Verificar se o usuário está autenticado
     const { data: usuario, error: userError } = await supabase
       .from("usuario")
       .select("*")
