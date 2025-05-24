@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
+// Componente de cartão de exercício para exibir informações sobre um exercício
 interface ExerciseCardProps {
   nome: string;
   descricao: string;
@@ -10,6 +11,7 @@ interface ExerciseCardProps {
   onPress?: () => void;
 }
 
+// Componente de cartão de exercício
 export default function ExerciseCard({
   nome,
   series,

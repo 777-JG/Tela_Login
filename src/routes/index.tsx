@@ -9,7 +9,7 @@ import Exercises from "../pages/Exercises";
 import ExerciseList from "../pages/ExerciseList";
 import ExerciseDetail from "../pages/ExerciseDetail";
 import SuggestedWorkout from "../pages/SuggestedWorkout";
-
+// Importando as páginas necessárias para a navegação
 type RootStackParamList = {
   Welcome: undefined;
   SignIn: undefined;

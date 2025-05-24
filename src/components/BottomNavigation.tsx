@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
+// Navegação inferior personalizada para o aplicativo
 type BottomNavigationProps = {
   currentRoute: string;
 };
@@ -11,7 +11,7 @@ export default function BottomNavigation({
   currentRoute,
 }: BottomNavigationProps) {
   const navigation = useNavigation();
-
+  // Define os itens de navegação com ícones e rótulos
   const navItems = [
     {
       name: "Home",

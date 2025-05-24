@@ -6,6 +6,7 @@ interface MuscleGroupSelectorProps {
   onSelectGroup: (group: string) => void;
 }
 
+// Componente para selecionar grupos musculares
 const muscleGroups = [
   { id: "1", name: "Peito" },
   { id: "2", name: "Costas" },
