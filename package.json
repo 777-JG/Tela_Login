@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
@@ -21,7 +22,7 @@
     "react-dom": "19.0.0",
     "react-native": "0.79.2",
     "react-native-animatable": "^1.4.0",
-    "react-native-fast-image": "^0.1.2",
+    "react-native-fast-image": "^8.6.3",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
+    "patch": "^0.0.1",
     "typescript": "^5.3.3"
   },
   "private": true
