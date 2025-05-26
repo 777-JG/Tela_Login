@@ -410,6 +410,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     color: "#333",
+    paddingTop: 15,
   },
   subGreeting: {
     fontWeight: "600",
@@ -419,6 +420,7 @@ const styles = StyleSheet.create({
   },
   profileButton: {
     padding: 5,
+    paddingTop: 15,
   },
   profileImageContainer: {
     position: "relative",
